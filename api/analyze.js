@@ -1,76 +1,33 @@
-const https = require('https');
-
-module.exports = async function handler(req, res) {
+export default async function handler(req, res) {
   res.setHeader('Access-Control-Allow-Origin', '*');
   res.setHeader('Access-Control-Allow-Methods', 'POST, OPTIONS');
   res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
 
   if (req.method === 'OPTIONS') return res.status(200).end();
-  if (req.method !== 'POST') return res.status(405).json({ error: 'Method not allowed' });
 
-  const { url } = req.body;
-  if (!url) return res.status(400).json({ error: 'Missing URL' });
+  const { url } = req.body || {};
 
-  const prompt = `Du er en vareanalyse-assistent for hjemmesiden danskevarer.dk. En bruger har indsat dette produktlink: "${url}"
+  const prompt = `Du er en vareanalyse-assistent for danskevarer.dk. Produktlink: "${url}"\n\nReturner KUN JSON (ingen backticks):\n{\n  "brand": "navn",\n  "brandCountry": "land",\n  "productionCountry": "land",\n  "productionRegion": "DK eller EU eller WORLD",\n  "category": "kategori paa dansk",\n  "flag": "flag emoji",\n  "siteScore": 85,\n  "siteScoreLabel": "Trovaerdig",\n  "analysis": "2-3 saetninger paa dansk",\n  "tags": ["tag1", "tag2"]\n}`;
 
-Analyser URL'en og returner KUN et JSON-objekt (ingen ekstra tekst, ingen markdown-backticks) med følgende felter:
-
-{
-  "brand": "Mærkets navn",
-  "brandCountry": "Landet hvor mærket er stiftet/ejet",
-  "productionCountry": "Landet hvor produktet typisk produceres",
-  "productionRegion": "DK" eller "EU" eller "WORLD",
-  "category": "Produktkategori på dansk (fx Sportstøj, Elektronik, Møbler, Legetøj...)",
-  "flag": "ét enkelt flag-emoji for produktionslandet",
-  "siteScore": et heltal 0-100 for butikkens troværdighed og sikkerhed,
-  "siteScoreLabel": "Meget troværdig" eller "Troværdig" eller "Neutral" eller "Vær forsigtig",
-  "analysis": "2-3 sætninger på dansk der forklarer oprindlsesland, produktion og eventuelle bæredygtighedsforhold",
-  "tags": ["op til 6 korte nøgleord"]
-}
-
-Basér dit svar på din viden om mærket og domænet. Svar KUN med JSON.`;
-
-  const body = JSON.stringify({
-    model: 'claude-sonnet-4-20250514',
-    max_tokens: 1000,
-    messages: [{ role: 'user', content: prompt }],
-  });
-
-  return new Promise((resolve) => {
-    const options = {
-      hostname: 'api.anthropic.com',
-      path: '/v1/messages',
+  try {
+    const r = await fetch('https://api.anthropic.com/v1/messages', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
         'x-api-key': process.env.ANTHROPIC_API_KEY,
         'anthropic-version': '2023-06-01',
-        'Content-Length': Buffer.byteLength(body),
       },
-    };
-
-    const request = https.request(options, (response) => {
-      let data = '';
-      response.on('data', (chunk) => { data += chunk; });
-      response.on('end', () => {
-        try {
-          const parsed = JSON.parse(data);
-          const text = parsed.content.map(i => i.text || '').join('').replace(/```json|```/g, '').trim();
-          const result = JSON.parse(text);
-          res.status(200).json(result);
-        } catch (e) {
-          res.status(500).json({ error: 'Parse error', raw: data });
-        }
-        resolve();
-      });
+      body: JSON.stringify({
+        model: 'claude-haiku-4-5-20251001',
+        max_tokens: 800,
+        messages: [{ role: 'user', content: prompt }],
+      }),
     });
 
-    request.on('error', (e) => {
-      res.status(500).json({ error: e.message });
-      resolve();
-    });
-
-    request.write(body);
-    request.end();
-  });
-};
+    const data = await r.json();
+    const text = data.content[0].text.replace(/```json|```/g, '').trim();
+    return res.status(200).json(JSON.parse(text));
+  } catch (e) {
+    return res.status(500).json({ error: e.message });
+  }
+}
