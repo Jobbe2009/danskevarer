@@ -11,13 +11,23 @@ module.exports = async function handler(req, res) {
 REGLER FOR productionRegion:
 - Hvis input er et SPECIFIKT PRODUKT eller PRODUKTLINK: find præcist hvor den type produkt produceres og sæt DK, EU eller WORLD. Brug ALDRIG MIXED for specifikke produkter.
 - Hvis input er et BRAND eller BUTIK uden specifikt produkt: brug MIXED hvis de producerer i både Europa og udenfor Europa.
+- EU betyder KUN EU-lande plus Norge, Schweiz, Island, Ukraine og Belarus. Rusland regnes altid som WORLD uanset geografi.
+
+REGLER FOR brand og brandCountry:
+- Skriv kun det mest kendte/primære navn på mærket - ikke en lang forklaring med ejerforhold i parentes.
+- brandCountry skal være ét land - det land mærket primært er grundlagt i. Ved tvivl vælg det mest kendte ophav.
+
+REGLER FOR productionCountry:
+- Maks 3-4 ord. Fx "Polen", "Polen og Rumænien", "Primært Bangladesh", "Kina og Vietnam".
+- Aldrig en hel sætning eller forklaring her - det er en overskrift ikke en beskrivelse.
+- Eventuelle forklaringer hører hjemme i mixedNote eller analysis.
 
 Returner KUN JSON (ingen backticks):
 {
-  "brand": "virksomhedens navn",
-  "brandCountry": "landet hvor virksomheden er grundlagt, på dansk",
-  "productionCountry": "beskriv præcist hvor produktet produceres, fx 'Kina', 'Danmark', 'Vietnam og Kina', 'Globalt - primært Asien' osv.",
-  "productionRegion": "DK hvis kun Danmark, EU hvis kun Europa, WORLD hvis kun udenfor Europa, MIXED hvis både europæisk og ikke-europæisk - kun for brands/butikker generelt",
+  "brand": "det primære og mest kendte navn på mærket - kort",
+  "brandCountry": "ét land hvor mærket er grundlagt, på dansk",
+  "productionCountry": "maks 3-4 ord om produktionssted",
+  "productionRegion": "DK hvis kun Danmark, EU hvis kun Europa ekskl. Rusland, WORLD hvis udenfor Europa eller Rusland, MIXED hvis både europæisk og ikke-europæisk - kun for brands/butikker generelt",
   "mixedNote": "kun udfyldt hvis MIXED - kort forklaring på dansk fx 'Produceres primært i Asien, men også i Europa'",
   "category": "produktkategori på dansk",
   "flag": "flag-emoji for produktionslandet - ved MIXED brug 🌍",
