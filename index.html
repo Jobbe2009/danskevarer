@@ -64,42 +64,20 @@ header { height: 52px; display: flex; align-items: center; justify-content: cent
 .result { display: none; animation: fadeUp 0.35s ease forwards; }
 @keyframes fadeUp { from { opacity: 0; transform: translateY(12px); } to { opacity: 1; transform: translateY(0); } }
 
-.origin-card { border-radius: 16px; overflow: hidden; border: 1px solid var(--border); background: var(--surface); margin-bottom: 12px; }
-.origin-top { padding: 20px 24px; display: flex; flex-direction: column; gap: 16px; border-bottom: 1px solid var(--border); }
-.origin-row { display: flex; align-items: center; gap: 12px; }
-.origin-flag { font-size: 28px; line-height: 1; flex-shrink: 0; }
-.origin-info { flex: 1; }
-.origin-label { font-size: 10px; text-transform: uppercase; letter-spacing: 1px; color: var(--muted); margin-bottom: 2px; font-weight: 500; }
-.origin-value { font-family: 'DM Serif Display', serif; font-size: 22px; line-height: 1.2; }
-.origin-sub { font-size: 13px; color: var(--muted); font-weight: 300; }
-
-/* BADGES */
-.badge-wrap { display: flex; flex-direction: column; align-items: flex-end; gap: 5px; flex-shrink: 0; }
-.status-badge { padding: 6px 14px; border-radius: 20px; font-size: 13px; font-weight: 500; white-space: nowrap; }
+/* SECTION CARDS */
+.section-card { background: var(--surface); border: 1px solid var(--border); border-radius: 16px; overflow: hidden; margin-bottom: 10px; }
+.section-header { padding: 10px 20px; border-bottom: 1px solid var(--border); font-size: 10px; text-transform: uppercase; letter-spacing: 1px; color: var(--muted); font-weight: 500; }
+.section-body { padding: 18px 20px; display: flex; align-items: center; gap: 14px; }
+.flag-big { font-size: 32px; flex-shrink: 0; line-height: 1; }
+.section-info { flex: 1; min-width: 0; }
+.section-name { font-family: 'DM Serif Display', serif; font-size: 22px; line-height: 1.2; margin-bottom: 2px; }
+.section-sub { font-size: 13px; color: var(--muted); font-weight: 300; }
+.section-badge { padding: 6px 14px; border-radius: 20px; font-size: 13px; font-weight: 500; white-space: nowrap; flex-shrink: 0; }
 .badge-dk { background: var(--green-bg); color: var(--green); }
 .badge-eu { background: var(--yellow-bg); color: var(--yellow); }
 .badge-world { background: var(--red-bg); color: var(--red); }
-.mixed-note { font-size: 11px; color: var(--muted); font-weight: 300; text-align: right; max-width: 180px; line-height: 1.3; }
 
-.production-row { display: flex; align-items: center; gap: 12px; padding: 12px 16px; border-radius: 10px; }
-.production-row.dk { background: var(--green-bg); }
-.production-row.eu { background: var(--yellow-bg); }
-.production-row.world { background: var(--red-bg); }
-.production-row.mixed { background: linear-gradient(to right, var(--yellow-bg), var(--red-bg)); }
-.prod-flag { font-size: 20px; flex-shrink: 0; }
-.prod-info { flex: 1; }
-.prod-label { font-size: 10px; text-transform: uppercase; letter-spacing: 1px; font-weight: 500; margin-bottom: 1px; }
-.prod-label.dk { color: var(--green); }
-.prod-label.eu { color: var(--yellow); }
-.prod-label.world { color: var(--red); }
-.prod-label.mixed { color: var(--yellow); }
-.prod-value { font-size: 14px; font-weight: 500; }
-
-.origin-bottom { padding: 16px 24px; display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
-.info-label { font-size: 10px; text-transform: uppercase; letter-spacing: 1px; color: var(--muted); margin-bottom: 3px; font-weight: 500; }
-.info-value { font-size: 15px; font-weight: 500; }
-
-.score-card { background: var(--surface); border: 1px solid var(--border); border-radius: 16px; padding: 20px 24px; margin-bottom: 12px; display: flex; align-items: center; gap: 16px; }
+.score-card { background: var(--surface); border: 1px solid var(--border); border-radius: 16px; padding: 20px 24px; margin-bottom: 10px; display: flex; align-items: center; gap: 16px; }
 .stars { display: flex; gap: 4px; font-size: 24px; line-height: 1; }
 .star.filled { opacity: 1; }
 .star.empty { opacity: 0.2; }
@@ -122,10 +100,9 @@ header { height: 52px; display: flex; align-items: center; justify-content: cent
 footer { text-align: center; padding: 24px; font-size: 12px; color: var(--muted); border-top: 1px solid var(--border); font-weight: 300; }
 
 @media (max-width: 500px) {
-  .origin-bottom { grid-template-columns: 1fr; }
+  .section-body { flex-wrap: wrap; }
+  .section-badge { width: 100%; text-align: center; }
   .score-card { flex-direction: column; align-items: flex-start; gap: 10px; }
-  .badge-wrap { align-items: flex-start; }
-  .mixed-note { text-align: left; }
 }
 </style>
 </head>
@@ -151,8 +128,8 @@ footer { text-align: center; padding: 24px; font-size: 12px; color: var(--muted)
     <div class="suggestion" onclick="fillExample('power.dk')">⚡ Power.dk</div>
   </div>
   <div class="legend">
-    <div class="legend-item"><div class="legend-dot dot-dk"></div> Dansk produceret</div>
-    <div class="legend-item"><div class="legend-dot dot-eu"></div> Europæisk produceret</div>
+    <div class="legend-item"><div class="legend-dot dot-dk"></div> Dansk mærke</div>
+    <div class="legend-item"><div class="legend-dot dot-eu"></div> Europæisk mærke</div>
     <div class="legend-item"><div class="legend-dot dot-world"></div> Udenfor Europa</div>
   </div>
 </section>
@@ -164,37 +141,34 @@ footer { text-align: center; padding: 24px; font-size: 12px; color: var(--muted)
   </div>
 
   <div class="result" id="result">
-    <div class="origin-card">
-      <div class="origin-top">
-        <div class="origin-row">
-          <div class="origin-flag" id="brandFlag"></div>
-          <div class="origin-info">
-            <div class="origin-label">Virksomhed</div>
-            <div class="origin-value" id="brandName"></div>
-            <div class="origin-sub" id="brandCountryText"></div>
-          </div>
-          <div class="badge-wrap" id="badgeWrap"></div>
+
+    <!-- SEKTION 1: MÆRKE -->
+    <div class="section-card">
+      <div class="section-header">Mærke</div>
+      <div class="section-body">
+        <div class="flag-big" id="brandFlag"></div>
+        <div class="section-info">
+          <div class="section-name" id="brandName"></div>
+          <div class="section-sub" id="brandSub"></div>
         </div>
-        <div class="production-row" id="productionRow">
-          <div class="prod-flag" id="prodFlag"></div>
-          <div class="prod-info">
-            <div class="prod-label" id="prodLabel">Produceret i</div>
-            <div class="prod-value" id="prodCountry"></div>
-          </div>
-        </div>
-      </div>
-      <div class="origin-bottom">
-        <div class="info-item">
-          <div class="info-label">Kategori</div>
-          <div class="info-value" id="categoryVal"></div>
-        </div>
-        <div class="info-item">
-          <div class="info-label">Mærkeland</div>
-          <div class="info-value" id="brandCountryVal"></div>
-        </div>
+        <div class="section-badge" id="brandBadge"></div>
       </div>
     </div>
 
+    <!-- SEKTION 2: PRODUKTION -->
+    <div class="section-card">
+      <div class="section-header">Produktion</div>
+      <div class="section-body">
+        <div class="flag-big" id="prodFlag"></div>
+        <div class="section-info">
+          <div class="section-name" id="prodCountry"></div>
+          <div class="section-sub" id="prodSub"></div>
+        </div>
+        <div class="section-badge" id="prodBadge"></div>
+      </div>
+    </div>
+
+    <!-- SCORE -->
     <div class="score-card">
       <div class="stars" id="starsBox"></div>
       <div class="score-right">
@@ -204,10 +178,12 @@ footer { text-align: center; padding: 24px; font-size: 12px; color: var(--muted)
       </div>
     </div>
 
+    <!-- ANALYSE -->
     <div class="analysis-card">
       <div class="analysis-text" id="analysisText"></div>
       <div class="tags" id="tagBox"></div>
     </div>
+
   </div>
 
   <div class="placeholder" id="placeholder">
@@ -254,83 +230,13 @@ async function checkProduct() {
   btn.textContent = 'Tjek';
 }
 
-function showResult(r) {
-  document.getElementById('loadingBox').style.display = 'none';
-  const region = r.productionRegion || 'WORLD';
-
-  document.getElementById('brandFlag').textContent = getBrandFlag(r.brandCountry);
-  document.getElementById('brandName').textContent = r.brand || '—';
-  document.getElementById('brandCountryText').textContent = r.brandCountry || '';
-  document.getElementById('brandCountryVal').textContent = r.brandCountry || '—';
-  document.getElementById('categoryVal').textContent = r.category || '—';
-
-  // Badges
-  const badgeWrap = document.getElementById('badgeWrap');
-  badgeWrap.innerHTML = '';
-  if (region === 'MIXED') {
-    const b1 = document.createElement('div');
-    b1.className = 'status-badge badge-eu';
-    b1.textContent = '🇪🇺 Europæisk vare';
-    const b2 = document.createElement('div');
-    b2.className = 'status-badge badge-world';
-    b2.textContent = '🌍 Udenfor Europa';
-    badgeWrap.appendChild(b1);
-    badgeWrap.appendChild(b2);
-    if (r.mixedNote) {
-      const note = document.createElement('div');
-      note.className = 'mixed-note';
-      note.textContent = r.mixedNote;
-      badgeWrap.appendChild(note);
-    }
-  } else {
-    const badge = document.createElement('div');
-    if (region === 'DK') { badge.textContent = '🇩🇰 Dansk vare'; badge.className = 'status-badge badge-dk'; }
-    else if (region === 'EU') { badge.textContent = '🇪🇺 Europæisk vare'; badge.className = 'status-badge badge-eu'; }
-    else { badge.textContent = '🌍 Udenfor Europa'; badge.className = 'status-badge badge-world'; }
-    badgeWrap.appendChild(badge);
-  }
-
-  // Production row
-  const prodRow = document.getElementById('productionRow');
-  const regionClass = region === 'DK' ? 'dk' : region === 'EU' ? 'eu' : region === 'MIXED' ? 'mixed' : 'world';
-  prodRow.className = 'production-row ' + regionClass;
-  document.getElementById('prodFlag').textContent = r.flag || '🌍';
-  const prodLabel = document.getElementById('prodLabel');
-  prodLabel.className = 'prod-label ' + regionClass;
-  document.getElementById('prodCountry').textContent = r.productionCountry || 'Ukendt';
-
-  // Stars
-  const stars = Math.min(5, Math.max(1, Math.round(r.siteScore))) || 3;
-  const starsBox = document.getElementById('starsBox');
-  starsBox.innerHTML = '';
-  for (let i = 1; i <= 5; i++) {
-    const s = document.createElement('span');
-    s.className = 'star ' + (i <= stars ? 'filled' : 'empty');
-    s.textContent = '★';
-    starsBox.appendChild(s);
-  }
-  const labels = { 1: 'Ukendt', 2: 'Vær forsigtig', 3: 'Neutral', 4: 'Troværdig', 5: 'Meget troværdig' };
-  const subs = { 1: 'Vi kender ikke denne butik', 2: 'Tjek anmeldelser før køb', 3: 'Ingen store advarsler', 4: 'Etableret og sikker', 5: 'Velkendt og betroet' };
-  document.getElementById('scoreText').textContent = labels[stars] || '';
-  document.getElementById('scoreSub').textContent = subs[stars] || '';
-
-  document.getElementById('analysisText').textContent = r.analysis || '';
-
-  const tagBox = document.getElementById('tagBox');
-  tagBox.innerHTML = '';
-  (r.tags || []).forEach(tag => {
-    const t = document.createElement('div');
-    const isWarn = ['kina','risiko','bangladesh','vietnam','cambodja','myanmar'].some(w => tag.toLowerCase().includes(w));
-    t.className = 'tag' + (isWarn ? ' tag-warn' : '');
-    t.textContent = tag;
-    tagBox.appendChild(t);
-  });
-
-  const result = document.getElementById('result');
-  result.style.display = 'block';
-  result.style.animation = 'none';
-  void result.offsetHeight;
-  result.style.animation = 'fadeUp 0.35s ease forwards';
+function getBrandRegion(country) {
+  if (!country) return 'WORLD';
+  const c = country.toLowerCase();
+  if (c.includes('danmark') || c.includes('denmark') || c.includes('danish')) return 'DK';
+  const eu = ['sverige','sweden','norge','norway','tyskland','germany','frankrig','france','italien','italy','spanien','spain','holland','netherlands','finland','belgien','belgium','østrig','austria','portugal','schweiz','switzerland','polen','poland','tjekkiet','czech','irland','ireland','grækenland','greece'];
+  if (eu.some(e => c.includes(e))) return 'EU';
+  return 'WORLD';
 }
 
 function getBrandFlag(country) {
@@ -351,6 +257,83 @@ function getBrandFlag(country) {
   if (c.includes('finland')) return '🇫🇮';
   if (c.includes('schweiz') || c.includes('switzerland')) return '🇨🇭';
   return '🏳️';
+}
+
+function showResult(r) {
+  document.getElementById('loadingBox').style.display = 'none';
+  const region = r.productionRegion || 'WORLD';
+
+  // --- MÆRKE SEKTION ---
+  document.getElementById('brandFlag').textContent = getBrandFlag(r.brandCountry);
+  document.getElementById('brandName').textContent = r.brand || '—';
+  document.getElementById('brandSub').textContent = (r.brandCountry || '') + (r.category ? ' · ' + r.category : '');
+
+  const brandRegion = getBrandRegion(r.brandCountry);
+  const brandBadge = document.getElementById('brandBadge');
+  if (brandRegion === 'DK') {
+    brandBadge.textContent = '🇩🇰 Dansk mærke';
+    brandBadge.className = 'section-badge badge-dk';
+  } else if (brandRegion === 'EU') {
+    brandBadge.textContent = '🇪🇺 Europæisk mærke';
+    brandBadge.className = 'section-badge badge-eu';
+  } else {
+    brandBadge.textContent = '🌍 Udenfor Europa';
+    brandBadge.className = 'section-badge badge-world';
+  }
+
+  // --- PRODUKTION SEKTION ---
+  document.getElementById('prodFlag').textContent = r.flag || '🌍';
+  document.getElementById('prodCountry').textContent = r.productionCountry || 'Ukendt';
+  document.getElementById('prodSub').textContent = r.mixedNote || '';
+
+  const prodBadge = document.getElementById('prodBadge');
+  if (region === 'DK') {
+    prodBadge.textContent = '🇩🇰 Produceret i Danmark';
+    prodBadge.className = 'section-badge badge-dk';
+  } else if (region === 'EU') {
+    prodBadge.textContent = '🇪🇺 Europæisk produktion';
+    prodBadge.className = 'section-badge badge-eu';
+  } else if (region === 'MIXED') {
+    prodBadge.textContent = '🌍 Globalt produceret';
+    prodBadge.className = 'section-badge badge-eu';
+  } else {
+    prodBadge.textContent = '🌍 Udenfor Europa';
+    prodBadge.className = 'section-badge badge-world';
+  }
+
+  // --- SCORE ---
+  const stars = Math.min(5, Math.max(1, Math.round(r.siteScore))) || 3;
+  const starsBox = document.getElementById('starsBox');
+  starsBox.innerHTML = '';
+  for (let i = 1; i <= 5; i++) {
+    const s = document.createElement('span');
+    s.className = 'star ' + (i <= stars ? 'filled' : 'empty');
+    s.textContent = '★';
+    starsBox.appendChild(s);
+  }
+  const labels = { 1: 'Ukendt', 2: 'Vær forsigtig', 3: 'Neutral', 4: 'Troværdig', 5: 'Meget troværdig' };
+  const subs = { 1: 'Vi kender ikke denne butik', 2: 'Tjek anmeldelser før køb', 3: 'Ingen store advarsler', 4: 'Etableret og sikker', 5: 'Velkendt og betroet' };
+  document.getElementById('scoreText').textContent = labels[stars] || '';
+  document.getElementById('scoreSub').textContent = subs[stars] || '';
+
+  // --- ANALYSE ---
+  document.getElementById('analysisText').textContent = r.analysis || '';
+
+  const tagBox = document.getElementById('tagBox');
+  tagBox.innerHTML = '';
+  (r.tags || []).forEach(tag => {
+    const t = document.createElement('div');
+    const isWarn = ['kina','risiko','bangladesh','vietnam','cambodja','myanmar'].some(w => tag.toLowerCase().includes(w));
+    t.className = 'tag' + (isWarn ? ' tag-warn' : '');
+    t.textContent = tag;
+    tagBox.appendChild(t);
+  });
+
+  const result = document.getElementById('result');
+  result.style.display = 'block';
+  result.style.animation = 'none';
+  void result.offsetHeight;
+  result.style.animation = 'fadeUp 0.35s ease forwards';
 }
 </script>
 </body>
