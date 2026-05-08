@@ -291,7 +291,7 @@ footer { text-align: center; padding: 24px; font-size: 12px; color: var(--muted)
 
   <div class="legend">
     <div class="legend-item"><div class="legend-dot dot-dk"></div> Dansk produceret</div>
-    <div class="legend-item"><div class="legend-dot dot-eu"></div> EU-produceret</div>
+    <div class="legend-item"><div class="legend-dot dot-eu"></div> Europæisk produceret</div>
     <div class="legend-item"><div class="legend-dot dot-world"></div> Udenfor EU</div>
   </div>
 </section>
@@ -405,7 +405,7 @@ function showResult(r) {
 
   const badge = document.getElementById('statusBadge');
   if (region === 'DK') { badge.textContent = '🇩🇰 Dansk vare'; badge.className = 'status-badge badge-dk'; }
-  else if (region === 'EU') { badge.textContent = '🇪🇺 EU-vare'; badge.className = 'status-badge badge-eu'; }
+  else if (region === 'EU') { badge.textContent = '🇪🇺 Europæisk vare'; badge.className = 'status-badge badge-eu'; }
   else { badge.textContent = '🌍 Udenfor EU'; badge.className = 'status-badge badge-world'; }
 
   const prodRow = document.getElementById('productionRow');
