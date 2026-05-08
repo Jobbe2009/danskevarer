@@ -6,7 +6,25 @@ module.exports = async function handler(req, res) {
 
   const { url } = req.body || {};
 
-  const prompt = `Du er en vareanalyse-assistent for danskevarer.dk. Produktlink: "${url}"\n\nReturner KUN JSON (ingen backticks):\n{\n  "brand": "maerkets navn",\n  "brandCountry": "landet hvor maerket er grundlagt, paa dansk",\n  "productionCountry": "landet hvor produktet typisk produceres, paa dansk",\n  "productionRegion": VIGTIGT - brug disse regler: "DK" hvis produceret i Danmark. "EU" hvis produceret i et af disse lande: Sverige, Norge, Finland, Island, Tyskland, Frankrig, Italien, Spanien, Holland, Belgien, Polen, Tjekkiet, Østrig, Portugal, Grækenland, Ungarn, Rumænien, Schweiz, eller andet europæisk land. "WORLD" hvis produceret udenfor Europa fx Kina, USA, Bangladesh, Vietnam, Indien, Tyrkiet, Cambodja, Indonesien osv.,\n  "category": "produktkategori paa dansk",\n  "flag": "flag-emoji for produktionslandet",\n  "siteScore": HELTAL 1-5 (Nike Apple LEGO Zara IKEA Arla og alle store kendte butikker = 5. Ukendte sider = 1-2),\n  "analysis": "2-3 saetninger paa dansk om maerke, produktion og baeredygtighed",\n  "tags": ["op til 5 korte noegleord paa dansk"]\n}`;
+  const prompt = `Du er en vareanalyse-assistent for danskevarer.dk. Brugeren har indtastet: "${url}"
+
+Inputtet kan være:
+1. Et produktlink (fx https://www.nike.com/dk/t/air-max-270)
+2. Et domæne eller hjemmeside (fx power.dk eller www.elgiganten.dk)
+3. Et produktnavn eller søgeord (fx "iPhone 17 Pro", "Zara bukser", "LEGO Technic", "Nike Air Max")
+
+Analyser inputtet og returner KUN JSON (ingen backticks, ingen ekstra tekst):
+{
+  "brand": "virksomhedens eller mærkets navn",
+  "brandCountry": "landet hvor virksomheden/mærket er grundlagt, på dansk",
+  "productionCountry": "landet hvor produktet/varerne typisk produceres, på dansk. Hvis ukendt skriv Ukendt",
+  "productionRegion": "DK" hvis Danmark, "EU" hvis europæisk land (Sverige Norge Finland Island Tyskland Frankrig Italien Spanien Holland Belgien Polen Schweiz mv), "WORLD" hvis udenfor Europa (Kina USA Bangladesh Vietnam Indien Tyrkiet osv),
+  "category": "produktkategori eller virksomhedstype på dansk",
+  "flag": "flag-emoji for produktionslandet eller virksomhedens hjemland hvis produktion ukendt",
+  "siteScore": HELTAL 1-5. Store kendte globale mærker og butikker som Nike Apple LEGO Zara IKEA Arla HM Adidas Samsung Sony Elgiganten Power Zalando og lignende = altid 5. Mellemstore kendte mærker = 4. Mindre kendte = 3. Ukendte = 2. Mistænkelige = 1,
+  "analysis": "2-3 sætninger på dansk om virksomhedens oprindelse, hvor produkterne typisk produceres og eventuelle bæredygtighedsforhold",
+  "tags": ["op til 5 korte nøgleord på dansk"]
+}`;
 
   try {
     const r = await fetch('https://api.anthropic.com/v1/messages', {
