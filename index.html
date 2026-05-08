@@ -1,599 +1,473 @@
 <!DOCTYPE html>
 <html lang="da">
 <head>
-<meta charset="UTF-8" />
+<meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-<title>danskevarer.dk — Kender du varen bag din vare?</title>
-<meta name="description" content="Tjek om dit produkt er dansk, europæisk eller produceret udenfor EU. Handel bevidst og bæredygtigt."/>
+<title>danskevarer.dk — Tjek din vares oprindelse</title>
+<meta name="description" content="Tjek om dit produkt er dansk, europæisk eller produceret udenfor EU."/>
 <link rel="preconnect" href="https://fonts.googleapis.com"/>
-<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Source+Sans+3:wght@400;500;600&display=swap" rel="stylesheet"/>
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@latest/tabler-icons.min.css"/>
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet"/>
 <style>
-  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-  body {
-    font-family: 'Source Sans 3', sans-serif;
-    background: #f7f5f0;
-    color: #1a1a18;
-    min-height: 100vh;
-  }
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
-  .dv-header {
-    background: #1a3a2a;
-    padding: 0 2rem;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    height: 56px;
-    border-bottom: 3px solid #2d6a47;
-    position: sticky;
-    top: 0;
-    z-index: 100;
-  }
-  .dv-logo {
-    font-family: 'Playfair Display', serif;
-    font-size: 22px;
-    color: #e8f5ee;
-    letter-spacing: -0.5px;
-    text-decoration: none;
-  }
-  .dv-logo span { color: #5ecf8a; }
-  .dv-nav { display: flex; gap: 1.5rem; font-size: 13px; color: #9abfac; }
-  .dv-nav a { color: #9abfac; text-decoration: none; }
-  .dv-nav a:hover { color: #e8f5ee; }
+:root {
+  --bg: #f5f2ed;
+  --surface: #ffffff;
+  --text: #1c1c1a;
+  --muted: #8a8680;
+  --border: #e2ddd6;
+  --green: #2a7a4b;
+  --green-bg: #eef7f2;
+  --yellow: #a07a00;
+  --yellow-bg: #fdf8e7;
+  --red: #c0392b;
+  --red-bg: #fdf0ee;
+}
 
-  .dv-hero {
-    background: linear-gradient(160deg, #1a3a2a 0%, #0d2419 100%);
-    padding: 3rem 2rem 2.5rem;
-    text-align: center;
-  }
-  .dv-hero h1 {
-    font-family: 'Playfair Display', serif;
-    font-size: 32px;
-    color: #e8f5ee;
-    margin-bottom: 8px;
-    line-height: 1.2;
-  }
-  .dv-hero p { color: #8fbfaa; font-size: 15px; margin-bottom: 1.8rem; }
+body {
+  font-family: 'DM Sans', sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  min-height: 100vh;
+  font-size: 15px;
+  line-height: 1.6;
+}
 
-  .dv-search-box {
-    background: #fff;
-    border-radius: 12px;
-    padding: 6px 6px 6px 16px;
-    display: flex;
-    align-items: center;
-    max-width: 640px;
-    margin: 0 auto 1rem;
-    border: 2px solid #2d6a47;
-    box-shadow: 0 4px 24px rgba(0,0,0,0.2);
-    gap: 8px;
-  }
-  .dv-search-box input {
-    flex: 1;
-    border: none;
-    outline: none;
-    font-size: 14px;
-    color: #1a1a18;
-    font-family: 'Source Sans 3', sans-serif;
-    background: transparent;
-  }
-  .dv-search-box input::placeholder { color: #aaa; }
-  .dv-search-btn {
-    background: #2d6a47;
-    color: #fff;
-    border: none;
-    border-radius: 8px;
-    padding: 10px 20px;
-    font-size: 14px;
-    font-weight: 600;
-    cursor: pointer;
-    font-family: 'Source Sans 3', sans-serif;
-    white-space: nowrap;
-    transition: background 0.15s;
-    display: flex;
-    align-items: center;
-    gap: 6px;
-  }
-  .dv-search-btn:hover { background: #3a8558; }
-  .dv-search-btn:disabled { background: #aaa; cursor: not-allowed; }
+header {
+  height: 52px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-bottom: 1px solid var(--border);
+  background: var(--bg);
+}
+.logo {
+  font-family: 'DM Serif Display', serif;
+  font-size: 20px;
+  color: var(--text);
+  letter-spacing: -0.3px;
+}
+.logo em { font-style: italic; color: var(--green); }
 
-  .dv-examples {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 8px;
-    justify-content: center;
-    max-width: 640px;
-    margin: 0 auto;
-  }
-  .dv-ex-pill {
-    background: rgba(255,255,255,0.08);
-    border: 1px solid rgba(255,255,255,0.15);
-    color: #b8d9c4;
-    border-radius: 20px;
-    padding: 5px 14px;
-    font-size: 12px;
-    cursor: pointer;
-    transition: background 0.15s;
-  }
-  .dv-ex-pill:hover { background: rgba(255,255,255,0.15); color: #e8f5ee; }
+.hero {
+  max-width: 640px;
+  margin: 0 auto;
+  padding: 64px 20px 48px;
+  text-align: center;
+}
+.hero h1 {
+  font-family: 'DM Serif Display', serif;
+  font-size: clamp(28px, 5vw, 42px);
+  line-height: 1.15;
+  margin-bottom: 12px;
+  letter-spacing: -0.5px;
+}
+.hero h1 em { font-style: italic; color: var(--green); }
+.hero p { color: var(--muted); font-size: 15px; margin-bottom: 32px; font-weight: 300; }
 
-  .dv-main {
-    max-width: 960px;
-    margin: 0 auto;
-    padding: 2rem 1rem;
-    display: grid;
-    grid-template-columns: 1fr 230px;
-    gap: 1.5rem;
-    align-items: start;
-  }
+.search-wrap {
+  display: flex;
+  gap: 8px;
+  background: var(--surface);
+  border: 1.5px solid var(--border);
+  border-radius: 14px;
+  padding: 6px 6px 6px 18px;
+  transition: border-color 0.2s;
+  box-shadow: 0 2px 12px rgba(0,0,0,0.06);
+}
+.search-wrap:focus-within { border-color: var(--green); }
+.search-wrap input {
+  flex: 1;
+  border: none;
+  outline: none;
+  font-size: 14px;
+  font-family: 'DM Sans', sans-serif;
+  background: transparent;
+  color: var(--text);
+  min-width: 0;
+}
+.search-wrap input::placeholder { color: #bbb; }
+.search-btn {
+  background: var(--green);
+  color: #fff;
+  border: none;
+  border-radius: 10px;
+  padding: 10px 22px;
+  font-size: 14px;
+  font-weight: 500;
+  font-family: 'DM Sans', sans-serif;
+  cursor: pointer;
+  white-space: nowrap;
+  transition: background 0.15s, transform 0.1s;
+}
+.search-btn:hover { background: #235f3b; }
+.search-btn:active { transform: scale(0.98); }
+.search-btn:disabled { background: #ccc; cursor: not-allowed; }
 
-  .dv-loading {
-    background: #fff;
-    border-radius: 12px;
-    padding: 2.5rem;
-    border: 1px solid #e0ddd5;
-    text-align: center;
-    color: #666;
-    font-size: 14px;
-    display: none;
-  }
-  .dv-spinner {
-    width: 36px; height: 36px;
-    border: 3px solid #e0ddd5;
-    border-top-color: #2d6a47;
-    border-radius: 50%;
-    animation: spin 0.8s linear infinite;
-    margin: 0 auto 1rem;
-  }
-  @keyframes spin { to { transform: rotate(360deg); } }
+.suggestions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  justify-content: center;
+  margin-top: 16px;
+}
+.suggestion {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 20px;
+  padding: 5px 14px;
+  font-size: 13px;
+  color: var(--muted);
+  cursor: pointer;
+  transition: all 0.15s;
+  white-space: nowrap;
+}
+.suggestion:hover { border-color: var(--green); color: var(--green); background: var(--green-bg); }
 
-  .dv-result-card {
-    background: #fff;
-    border-radius: 12px;
-    overflow: hidden;
-    border: 1px solid #e0ddd5;
-    display: none;
-    animation: fadeIn 0.4s ease forwards;
-  }
-  @keyframes fadeIn { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: translateY(0); } }
+.legend {
+  display: flex;
+  gap: 20px;
+  justify-content: center;
+  margin-top: 28px;
+  flex-wrap: wrap;
+}
+.legend-item { display: flex; align-items: center; gap: 6px; font-size: 12px; color: var(--muted); font-weight: 300; }
+.legend-dot { width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0; }
+.dot-dk { background: var(--green); }
+.dot-eu { background: #c9a520; }
+.dot-world { background: var(--red); }
 
-  .dv-result-banner {
-    padding: 1.2rem 1.5rem;
-    display: flex;
-    align-items: center;
-    gap: 12px;
-  }
-  .dv-result-banner.dk { background: #eaf6f0; border-bottom: 3px solid #2d9b5a; }
-  .dv-result-banner.eu { background: #fefbea; border-bottom: 3px solid #c9a520; }
-  .dv-result-banner.world { background: #fef0ec; border-bottom: 3px solid #d45a30; }
+.content {
+  max-width: 640px;
+  margin: 0 auto;
+  padding: 0 20px 80px;
+}
 
-  .dv-flag { font-size: 28px; }
-  .dv-origin-label { font-size: 11px; color: #888; text-transform: uppercase; letter-spacing: 0.8px; }
-  .dv-origin-val { font-family: 'Playfair Display', serif; font-size: 20px; color: #1a1a18; }
-  .dv-origin-badge {
-    margin-left: auto;
-    border-radius: 20px;
-    padding: 6px 16px;
-    font-size: 13px;
-    font-weight: 600;
-    white-space: nowrap;
-  }
-  .dk .dv-origin-badge { background: #2d9b5a; color: #fff; }
-  .eu .dv-origin-badge { background: #c9a520; color: #fff; }
-  .world .dv-origin-badge { background: #d45a30; color: #fff; }
+.loading { display: none; text-align: center; padding: 48px 0; }
+.spinner {
+  width: 28px; height: 28px;
+  border: 2px solid var(--border);
+  border-top-color: var(--green);
+  border-radius: 50%;
+  animation: spin 0.7s linear infinite;
+  margin: 0 auto 12px;
+}
+@keyframes spin { to { transform: rotate(360deg); } }
+.loading p { font-size: 13px; color: var(--muted); font-weight: 300; }
 
-  .dv-result-body { padding: 1.5rem; }
+.result { display: none; animation: fadeUp 0.35s ease forwards; }
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(12px); }
+  to { opacity: 1; transform: translateY(0); }
+}
 
-  .dv-grid-3 {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 10px;
-    margin-bottom: 1.2rem;
-  }
-  .dv-stat { background: #f7f5f0; border-radius: 8px; padding: 10px 12px; }
-  .dv-stat-label { font-size: 11px; color: #888; text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 4px; }
-  .dv-stat-val { font-size: 15px; font-weight: 600; color: #1a1a18; }
+.origin-card {
+  border-radius: 16px;
+  overflow: hidden;
+  border: 1px solid var(--border);
+  background: var(--surface);
+  margin-bottom: 12px;
+}
+.origin-top {
+  padding: 20px 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  border-bottom: 1px solid var(--border);
+}
+.origin-row { display: flex; align-items: center; gap: 12px; }
+.origin-flag { font-size: 28px; line-height: 1; flex-shrink: 0; }
+.origin-info { flex: 1; }
+.origin-label { font-size: 10px; text-transform: uppercase; letter-spacing: 1px; color: var(--muted); margin-bottom: 2px; font-weight: 500; }
+.origin-value { font-family: 'DM Serif Display', serif; font-size: 22px; line-height: 1.2; }
+.origin-sub { font-size: 13px; color: var(--muted); font-weight: 300; }
+.status-badge { padding: 6px 14px; border-radius: 20px; font-size: 13px; font-weight: 500; white-space: nowrap; flex-shrink: 0; }
+.badge-dk { background: var(--green-bg); color: var(--green); }
+.badge-eu { background: var(--yellow-bg); color: var(--yellow); }
+.badge-world { background: var(--red-bg); color: var(--red); }
 
-  .dv-score-row {
-    display: flex;
-    align-items: center;
-    gap: 12px;
-    background: #f7f5f0;
-    border-radius: 8px;
-    padding: 12px 16px;
-    margin-bottom: 1.2rem;
-  }
-  .dv-score-num { font-family: 'Playfair Display', serif; font-size: 32px; color: #1a1a18; min-width: 60px; }
-  .dv-score-bar-wrap { flex: 1; }
-  .dv-score-label { font-size: 11px; color: #888; text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 5px; }
-  .dv-score-bar-bg { height: 8px; background: #e0ddd5; border-radius: 4px; overflow: hidden; }
-  .dv-score-bar-fill { height: 100%; border-radius: 4px; width: 0%; transition: width 1s ease; }
-  .score-high .dv-score-bar-fill { background: #2d9b5a; }
-  .score-mid .dv-score-bar-fill { background: #c9a520; }
-  .score-low .dv-score-bar-fill { background: #d45a30; }
-  .dv-score-text { font-size: 13px; color: #555; white-space: nowrap; }
+.production-row {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px 16px;
+  border-radius: 10px;
+}
+.production-row.dk { background: var(--green-bg); }
+.production-row.eu { background: var(--yellow-bg); }
+.production-row.world { background: var(--red-bg); }
+.prod-flag { font-size: 20px; flex-shrink: 0; }
+.prod-info { flex: 1; }
+.prod-label { font-size: 10px; text-transform: uppercase; letter-spacing: 1px; font-weight: 500; margin-bottom: 1px; }
+.prod-label.dk { color: var(--green); }
+.prod-label.eu { color: var(--yellow); }
+.prod-label.world { color: var(--red); }
+.prod-value { font-size: 14px; font-weight: 500; }
 
-  .dv-analysis { font-size: 14px; line-height: 1.7; color: #333; margin-bottom: 1.2rem; }
+.origin-bottom {
+  padding: 16px 24px;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+}
+.info-label { font-size: 10px; text-transform: uppercase; letter-spacing: 1px; color: var(--muted); margin-bottom: 3px; font-weight: 500; }
+.info-value { font-size: 15px; font-weight: 500; }
 
-  .dv-tags { display: flex; flex-wrap: wrap; gap: 6px; }
-  .dv-tag { background: #eaf6f0; color: #1a5c35; border-radius: 4px; padding: 3px 10px; font-size: 12px; }
-  .dv-tag.warn { background: #fef0ec; color: #7a2e14; }
+/* STAR SCORE */
+.score-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  padding: 20px 24px;
+  margin-bottom: 12px;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+.stars { display: flex; gap: 4px; font-size: 24px; line-height: 1; }
+.star { transition: transform 0.2s; }
+.star.filled { filter: none; }
+.star.empty { filter: grayscale(1); opacity: 0.25; }
+.score-right { flex: 1; }
+.score-label { font-size: 10px; text-transform: uppercase; letter-spacing: 1px; color: var(--muted); margin-bottom: 4px; font-weight: 500; }
+.score-text { font-size: 14px; font-weight: 500; }
+.score-sub { font-size: 12px; color: var(--muted); font-weight: 300; margin-top: 1px; }
 
-  .dv-placeholder {
-    background: #fff;
-    border-radius: 12px;
-    padding: 3rem 1.5rem;
-    border: 1px dashed #c8c4bb;
-    text-align: center;
-  }
-  .dv-placeholder-icon { font-size: 42px; margin-bottom: 12px; opacity: 0.35; }
-  .dv-placeholder h3 { font-size: 15px; color: #555; font-weight: 500; margin-bottom: 6px; }
-  .dv-placeholder p { font-size: 13px; color: #999; line-height: 1.6; max-width: 320px; margin: 0 auto; }
+.analysis-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  padding: 20px 24px;
+  margin-bottom: 12px;
+}
+.analysis-text { font-size: 14px; line-height: 1.75; color: #444; font-weight: 300; }
+.tags { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 12px; }
+.tag { background: var(--bg); border: 1px solid var(--border); border-radius: 6px; padding: 3px 10px; font-size: 12px; color: var(--muted); }
+.tag-warn { background: var(--red-bg); border-color: #f0c0bb; color: var(--red); }
 
-  .dv-ad-card, .dv-suggest-card {
-    background: #fff;
-    border-radius: 12px;
-    padding: 1rem;
-    border: 1px solid #e0ddd5;
-    margin-bottom: 1rem;
-  }
-  .dv-ad-label, .dv-suggest-title {
-    font-size: 10px;
-    color: #aaa;
-    text-transform: uppercase;
-    letter-spacing: 0.5px;
-    margin-bottom: 10px;
-    font-weight: 600;
-  }
-  .dv-ad-item {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    padding: 8px;
-    border-radius: 8px;
-    cursor: pointer;
-    transition: background 0.1s;
-    margin-bottom: 2px;
-    text-decoration: none;
-  }
-  .dv-ad-item:hover { background: #f7f5f0; }
-  .dv-ad-icon {
-    width: 36px; height: 36px;
-    border-radius: 8px;
-    display: flex; align-items: center; justify-content: center;
-    font-size: 18px;
-    flex-shrink: 0;
-  }
-  .dv-ad-name { font-size: 13px; font-weight: 600; color: #1a1a18; }
-  .dv-ad-sub { font-size: 11px; color: #888; }
-  .dv-ad-badge {
-    margin-left: auto;
-    font-size: 10px;
-    border-radius: 3px;
-    padding: 2px 7px;
-    font-weight: 600;
-    flex-shrink: 0;
-  }
-  .badge-dk { background: #eaf6f0; color: #1a5c35; }
-  .badge-eu { background: #fefbea; color: #7a5c00; }
+.placeholder { text-align: center; padding: 64px 0; }
+.placeholder-icon {
+  width: 48px; height: 48px;
+  border-radius: 50%;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  display: flex; align-items: center; justify-content: center;
+  margin: 0 auto 16px;
+  font-size: 20px;
+}
+.placeholder h3 { font-family: 'DM Serif Display', serif; font-size: 18px; margin-bottom: 6px; font-weight: 400; }
+.placeholder p { font-size: 13px; color: var(--muted); font-weight: 300; }
 
-  .dv-suggest-item {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    padding: 7px 0;
-    border-bottom: 1px solid #f0ede6;
-    font-size: 13px;
-    color: #333;
-    cursor: pointer;
-    transition: color 0.1s;
-  }
-  .dv-suggest-item:last-child { border-bottom: none; }
-  .dv-suggest-item:hover { color: #2d6a47; }
-  .dv-suggest-dot { width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0; }
-  .dot-dk { background: #2d9b5a; }
-  .dot-eu { background: #c9a520; }
-  .dot-world { background: #d45a30; }
+footer { text-align: center; padding: 24px; font-size: 12px; color: var(--muted); border-top: 1px solid var(--border); font-weight: 300; }
 
-  .dv-info-strip {
-    background: #fff;
-    border-top: 1px solid #e0ddd5;
-    border-bottom: 1px solid #e0ddd5;
-    padding: 1.5rem 2rem;
-    display: flex;
-    justify-content: center;
-    gap: 3rem;
-    flex-wrap: wrap;
-    margin-top: 1rem;
-  }
-  .dv-info-item { text-align: center; }
-  .dv-info-icon { font-size: 24px; margin-bottom: 4px; }
-  .dv-info-title { font-size: 13px; font-weight: 600; color: #1a1a18; }
-  .dv-info-desc { font-size: 12px; color: #888; }
-
-  .dv-footer {
-    background: #1a3a2a;
-    padding: 2rem;
-    text-align: center;
-    color: #5a8a6e;
-    font-size: 12px;
-    margin-top: 1rem;
-  }
-  .dv-footer a { color: #8fbfaa; text-decoration: none; margin: 0 0.5rem; }
-  .dv-footer a:hover { color: #e8f5ee; }
-  .dv-footer-logo { font-family: 'Playfair Display', serif; font-size: 18px; color: #e8f5ee; margin-bottom: 8px; }
-  .dv-footer-logo span { color: #5ecf8a; }
-
-  @media (max-width: 680px) {
-    .dv-main { grid-template-columns: 1fr; }
-    .dv-sidebar { display: none; }
-    .dv-hero h1 { font-size: 24px; }
-    .dv-grid-3 { grid-template-columns: repeat(2, 1fr); }
-  }
+@media (max-width: 500px) {
+  .origin-bottom { grid-template-columns: 1fr; }
+  .score-card { flex-direction: column; align-items: flex-start; gap: 10px; }
+}
 </style>
 </head>
 <body>
 
-<header class="dv-header">
-  <a href="/" class="dv-logo">danske<span>varer</span>.dk</a>
-  <nav class="dv-nav">
-    <a href="#">Om os</a>
-    <a href="#">Kategorier</a>
-    <a href="#">Blog</a>
-  </nav>
+<header>
+  <div class="logo">danske<em>varer</em>.dk</div>
 </header>
 
-<section class="dv-hero">
-  <h1>Kender du varen bag din vare?</h1>
-  <p>Indsæt et produktlink — vi fortæller dig om oprindlsesland, mærke og sikkerhed</p>
-  <div class="dv-search-box">
-    <i class="ti ti-link" style="font-size:18px;color:#aaa;"></i>
-    <input type="text" id="urlInput" placeholder="Indsæt produktlink her, fx https://www.elgiganten.dk/produkt/..." />
-    <button class="dv-search-btn" id="checkBtn" onclick="checkProduct()">
-      Tjek varen <i class="ti ti-arrow-right"></i>
-    </button>
+<section class="hero">
+  <h1>Kender du varen<br/>bag din <em>vare?</em></h1>
+  <p>Indsæt et produktlink og se hvor varen kommer fra</p>
+
+  <div class="search-wrap">
+    <input type="text" id="urlInput" placeholder="Indsæt produktlink her..." autocomplete="off"/>
+    <button class="search-btn" id="checkBtn" onclick="checkProduct()">Tjek varen</button>
   </div>
-  <div class="dv-examples">
-    <div class="dv-ex-pill" onclick="fillExample('https://www.nike.com/dk/t/air-max-270-sko')">👟 Nike Air Max</div>
-    <div class="dv-ex-pill" onclick="fillExample('https://www.ikea.com/dk/da/p/kallax-reol-hvid/')">🪑 IKEA Kallax</div>
-    <div class="dv-ex-pill" onclick="fillExample('https://www.hummel.dk/products/hummel-core-t-shirt')">🇩🇰 Hummel T-shirt</div>
-    <div class="dv-ex-pill" onclick="fillExample('https://www.apple.com/dk/shop/buy-iphone/iphone-15')">📱 iPhone 15</div>
-    <div class="dv-ex-pill" onclick="fillExample('https://www.ecco.com/dk/dk/sneakers')">👞 ECCO Sneakers</div>
-    <div class="dv-ex-pill" onclick="fillExample('https://www.lego.com/dk-dk/themes/city')">🧱 LEGO City</div>
+
+  <div class="suggestions">
+    <div class="suggestion" onclick="fillExample('https://www.apple.com/dk/shop/buy-iphone/iphone-16')">📱 Apple iPhone 16</div>
+    <div class="suggestion" onclick="fillExample('https://www.zara.com/dk/da/shorts-l07244878.html')">👕 Zara shorts</div>
+    <div class="suggestion" onclick="fillExample('https://www.hummel.dk/products/hummel-core-t-shirt')">🇩🇰 Hummel T-shirt</div>
+    <div class="suggestion" onclick="fillExample('https://www.lego.com/dk-dk/themes/technic')">🧱 LEGO Technic</div>
+    <div class="suggestion" onclick="fillExample('https://www.nike.com/dk/t/air-max-270-sko')">👟 Nike Air Max</div>
+  </div>
+
+  <div class="legend">
+    <div class="legend-item"><div class="legend-dot dot-dk"></div> Dansk produceret</div>
+    <div class="legend-item"><div class="legend-dot dot-eu"></div> EU-produceret</div>
+    <div class="legend-item"><div class="legend-dot dot-world"></div> Udenfor EU</div>
   </div>
 </section>
 
-<div class="dv-info-strip">
-  <div class="dv-info-item">
-    <div class="dv-info-icon">🇩🇰</div>
-    <div class="dv-info-title">Dansk produceret</div>
-    <div class="dv-info-desc">Støt lokal produktion</div>
+<div class="content">
+  <div class="loading" id="loadingBox">
+    <div class="spinner"></div>
+    <p>Analyserer produktet...</p>
   </div>
-  <div class="dv-info-item">
-    <div class="dv-info-icon">🌱</div>
-    <div class="dv-info-title">Bæredygtigt forbrug</div>
-    <div class="dv-info-desc">Kortere transportruter</div>
+
+  <div class="result" id="result">
+    <div class="origin-card">
+      <div class="origin-top">
+        <div class="origin-row">
+          <div class="origin-flag" id="brandFlag"></div>
+          <div class="origin-info">
+            <div class="origin-label">Virksomhed</div>
+            <div class="origin-value" id="brandName"></div>
+            <div class="origin-sub" id="brandCountryText"></div>
+          </div>
+          <div class="status-badge" id="statusBadge"></div>
+        </div>
+        <div class="production-row" id="productionRow">
+          <div class="prod-flag" id="prodFlag"></div>
+          <div class="prod-info">
+            <div class="prod-label" id="prodLabel">Produceret i</div>
+            <div class="prod-value" id="prodCountry"></div>
+          </div>
+        </div>
+      </div>
+      <div class="origin-bottom">
+        <div class="info-item">
+          <div class="info-label">Kategori</div>
+          <div class="info-value" id="categoryVal"></div>
+        </div>
+        <div class="info-item">
+          <div class="info-label">Mærkeland</div>
+          <div class="info-value" id="brandCountryVal"></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="score-card">
+      <div class="stars" id="starsBox"></div>
+      <div class="score-right">
+        <div class="score-label">Butikkens troværdighed</div>
+        <div class="score-text" id="scoreText"></div>
+        <div class="score-sub" id="scoreSub"></div>
+      </div>
+    </div>
+
+    <div class="analysis-card">
+      <div class="analysis-text" id="analysisText"></div>
+      <div class="tags" id="tagBox"></div>
+    </div>
   </div>
-  <div class="dv-info-item">
-    <div class="dv-info-icon">🔒</div>
-    <div class="dv-info-title">Sikkerhedstjek</div>
-    <div class="dv-info-desc">Troværdighed vurderet</div>
-  </div>
-  <div class="dv-info-item">
-    <div class="dv-info-icon">🤖</div>
-    <div class="dv-info-title">AI-drevet analyse</div>
-    <div class="dv-info-desc">Øjeblikkelig indsigt</div>
+
+  <div class="placeholder" id="placeholder">
+    <div class="placeholder-icon">🔍</div>
+    <h3>Indsæt et produktlink</h3>
+    <p>Vi analyserer oprindlsesland, mærke og butikkens troværdighed</p>
   </div>
 </div>
 
-<div class="dv-main">
-  <div class="dv-result-area">
-    <div class="dv-loading" id="loadingBox">
-      <div class="dv-spinner"></div>
-      <div style="font-size:15px;color:#333;margin-bottom:4px;">AI-assistent analyserer produktet...</div>
-      <div style="font-size:12px;color:#aaa;">Vent venligst et øjeblik</div>
-    </div>
-
-    <div class="dv-result-card" id="resultCard">
-      <div class="dv-result-banner" id="resultBanner">
-        <div class="dv-flag" id="flagEmoji"></div>
-        <div>
-          <div class="dv-origin-label">Produktionslandet</div>
-          <div class="dv-origin-val" id="originCountry"></div>
-        </div>
-        <div class="dv-origin-badge" id="originBadge"></div>
-      </div>
-      <div class="dv-result-body">
-        <div class="dv-grid-3">
-          <div class="dv-stat">
-            <div class="dv-stat-label">Mærke</div>
-            <div class="dv-stat-val" id="brandName"></div>
-          </div>
-          <div class="dv-stat">
-            <div class="dv-stat-label">Mærkeland</div>
-            <div class="dv-stat-val" id="brandCountry"></div>
-          </div>
-          <div class="dv-stat">
-            <div class="dv-stat-label">Kategori</div>
-            <div class="dv-stat-val" id="productCat"></div>
-          </div>
-        </div>
-        <div class="dv-score-row" id="scoreRow">
-          <div class="dv-score-num" id="scoreNum"></div>
-          <div class="dv-score-bar-wrap">
-            <div class="dv-score-label">Sikkerhedsscore for butikken</div>
-            <div class="dv-score-bar-bg">
-              <div class="dv-score-bar-fill" id="scoreBar"></div>
-            </div>
-          </div>
-          <div class="dv-score-text" id="scoreText"></div>
-        </div>
-        <div class="dv-analysis" id="analysisText"></div>
-        <div class="dv-tags" id="tagBox"></div>
-      </div>
-    </div>
-
-    <div class="dv-placeholder" id="placeholder">
-      <div class="dv-placeholder-icon">🔍</div>
-      <h3>Indsæt et produktlink ovenfor</h3>
-      <p>Vi analyserer om varen er dansk, europæisk eller produceret andre steder i verden — så du kan handle bevidst og bæredygtigt.</p>
-    </div>
-  </div>
-
-  <aside class="dv-sidebar">
-    <div class="dv-ad-card">
-      <div class="dv-ad-label">Anbefalede danske varer</div>
-      <a class="dv-ad-item" href="https://www.madsnorgaard.dk" target="_blank">
-        <div class="dv-ad-icon" style="background:#eaf6f0;">🧦</div>
-        <div><div class="dv-ad-name">Mads Nørgaard</div><div class="dv-ad-sub">Striper & basics</div></div>
-        <div class="dv-ad-badge badge-dk">DK</div>
-      </a>
-      <a class="dv-ad-item" href="https://www.samsoe.com" target="_blank">
-        <div class="dv-ad-icon" style="background:#eaf6f0;">👗</div>
-        <div><div class="dv-ad-name">Samsøe Samsøe</div><div class="dv-ad-sub">Dansk design</div></div>
-        <div class="dv-ad-badge badge-dk">DK</div>
-      </a>
-      <a class="dv-ad-item" href="https://www.bang-olufsen.com" target="_blank">
-        <div class="dv-ad-icon" style="background:#eaf6f0;">🎵</div>
-        <div><div class="dv-ad-name">Bang & Olufsen</div><div class="dv-ad-sub">Dansk lyd & design</div></div>
-        <div class="dv-ad-badge badge-dk">DK</div>
-      </a>
-      <a class="dv-ad-item" href="https://www.hay.dk" target="_blank">
-        <div class="dv-ad-icon" style="background:#fefbea;">🪑</div>
-        <div><div class="dv-ad-name">HAY</div><div class="dv-ad-sub">Møbler & indretning</div></div>
-        <div class="dv-ad-badge badge-dk">DK</div>
-      </a>
-      <a class="dv-ad-item" href="https://www.ecco.com/dk" target="_blank">
-        <div class="dv-ad-icon" style="background:#fefbea;">👟</div>
-        <div><div class="dv-ad-name">ECCO</div><div class="dv-ad-sub">Dansk fodtøj</div></div>
-        <div class="dv-ad-badge badge-eu">EU</div>
-      </a>
-    </div>
-
-    <div class="dv-suggest-card">
-      <div class="dv-suggest-title">Populære tjek</div>
-      <div class="dv-suggest-item" onclick="fillExample('https://www.samsung.com/dk/smartphones/galaxy-s24/')">
-        <div class="dv-suggest-dot dot-world"></div><span>Samsung Galaxy S24</span>
-      </div>
-      <div class="dv-suggest-item" onclick="fillExample('https://www.bang-olufsen.com/da/dk/speakers')">
-        <div class="dv-suggest-dot dot-dk"></div><span>Bang & Olufsen højtaler</span>
-      </div>
-      <div class="dv-suggest-item" onclick="fillExample('https://www.lego.com/dk-dk/themes/creator')">
-        <div class="dv-suggest-dot dot-dk"></div><span>Lego Creator set</span>
-      </div>
-      <div class="dv-suggest-item" onclick="fillExample('https://www2.hm.com/da_dk/index.html')">
-        <div class="dv-suggest-dot dot-world"></div><span>H&M vinterjakke</span>
-      </div>
-      <div class="dv-suggest-item" onclick="fillExample('https://www.hummel.dk')">
-        <div class="dv-suggest-dot dot-dk"></div><span>Hummel sportstøj</span>
-      </div>
-    </div>
-
-    <div style="background:#f7f5f0;border-radius:12px;padding:1rem;text-align:center;font-size:12px;color:#888;border:1px dashed #c8c4bb;">
-      <div style="font-size:20px;margin-bottom:6px;">📣</div>
-      <div style="font-weight:600;color:#555;margin-bottom:4px;">Annoncér her</div>
-      <div>Google AdSense reklame</div>
-    </div>
-  </aside>
-</div>
-
-<footer class="dv-footer">
-  <div class="dv-footer-logo">danske<span>varer</span>.dk</div>
-  <div style="margin-bottom:8px;">Handel bevidst. Støt lokalt. Tænk bæredygtigt.</div>
-  <div>
-    <a href="#">Om os</a>
-    <a href="#">Privatlivspolitik</a>
-    <a href="#">Kontakt</a>
-    <a href="#">Annoncér</a>
-  </div>
-  <div style="margin-top:8px;">© 2026 danskevarer.dk — Alle rettigheder forbeholdes</div>
-</footer>
+<footer>© 2026 danskevarer.dk &nbsp;·&nbsp; Handel bevidst. Støt lokalt.</footer>
 
 <script>
-  function fillExample(url) {
-    document.getElementById('urlInput').value = url;
-    document.getElementById('urlInput').focus();
+function fillExample(url) {
+  document.getElementById('urlInput').value = url;
+  document.getElementById('urlInput').focus();
+}
+document.getElementById('urlInput').addEventListener('keydown', e => {
+  if (e.key === 'Enter') checkProduct();
+});
+
+async function checkProduct() {
+  const url = document.getElementById('urlInput').value.trim();
+  if (!url) return;
+  const btn = document.getElementById('checkBtn');
+  btn.disabled = true;
+  btn.textContent = 'Analyserer...';
+  document.getElementById('placeholder').style.display = 'none';
+  document.getElementById('result').style.display = 'none';
+  document.getElementById('loadingBox').style.display = 'block';
+  try {
+    const r = await fetch('/api/analyze', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ url })
+    });
+    if (!r.ok) throw new Error('API fejl');
+    showResult(await r.json());
+  } catch(e) {
+    document.getElementById('loadingBox').style.display = 'none';
+    document.getElementById('placeholder').style.display = 'block';
+    document.getElementById('placeholder').innerHTML = '<div class="placeholder-icon">⚠️</div><h3>Kunne ikke analysere</h3><p>Prøv igen eller tjek at linket er gyldigt.</p>';
+  }
+  btn.disabled = false;
+  btn.textContent = 'Tjek varen';
+}
+
+function showResult(r) {
+  document.getElementById('loadingBox').style.display = 'none';
+  const region = r.productionRegion || 'WORLD';
+
+  document.getElementById('brandFlag').textContent = getBrandFlag(r.brandCountry);
+  document.getElementById('brandName').textContent = r.brand || '—';
+  document.getElementById('brandCountryText').textContent = r.brandCountry || '';
+  document.getElementById('brandCountryVal').textContent = r.brandCountry || '—';
+  document.getElementById('categoryVal').textContent = r.category || '—';
+
+  const badge = document.getElementById('statusBadge');
+  if (region === 'DK') { badge.textContent = '🇩🇰 Dansk vare'; badge.className = 'status-badge badge-dk'; }
+  else if (region === 'EU') { badge.textContent = '🇪🇺 EU-vare'; badge.className = 'status-badge badge-eu'; }
+  else { badge.textContent = '🌍 Udenfor EU'; badge.className = 'status-badge badge-world'; }
+
+  const prodRow = document.getElementById('productionRow');
+  prodRow.className = 'production-row ' + (region === 'DK' ? 'dk' : region === 'EU' ? 'eu' : 'world');
+  document.getElementById('prodFlag').textContent = r.flag || '🌍';
+  const prodLabel = document.getElementById('prodLabel');
+  prodLabel.className = 'prod-label ' + (region === 'DK' ? 'dk' : region === 'EU' ? 'eu' : 'world');
+  document.getElementById('prodCountry').textContent = r.productionCountry || 'Ukendt';
+
+  // Stars 1-5
+  const stars = Math.round(r.siteScore) || 3;
+  const starsBox = document.getElementById('starsBox');
+  starsBox.innerHTML = '';
+  for (let i = 1; i <= 5; i++) {
+    const s = document.createElement('span');
+    s.className = 'star ' + (i <= stars ? 'filled' : 'empty');
+    s.textContent = '★';
+    starsBox.appendChild(s);
   }
 
-  document.getElementById('urlInput').addEventListener('keydown', function(e) {
-    if (e.key === 'Enter') checkProduct();
+  const labels = { 1: 'Ukendt butik', 2: 'Vær forsigtig', 3: 'Neutral', 4: 'Troværdig', 5: 'Meget troværdig' };
+  const subs = { 1: 'Vi kender ikke denne butik', 2: 'Tjek anmeldelser før køb', 3: 'Ingen store advarsler', 4: 'Etableret og sikker butik', 5: 'Velkendt og betroet butik' };
+  document.getElementById('scoreText').textContent = labels[stars] || '';
+  document.getElementById('scoreSub').textContent = subs[stars] || '';
+
+  document.getElementById('analysisText').textContent = r.analysis || '';
+
+  const tagBox = document.getElementById('tagBox');
+  tagBox.innerHTML = '';
+  (r.tags || []).forEach(tag => {
+    const t = document.createElement('div');
+    const isWarn = ['kina','risiko','bangladesh','vietnam','cambodja','myanmar'].some(w => tag.toLowerCase().includes(w));
+    t.className = 'tag' + (isWarn ? ' tag-warn' : '');
+    t.textContent = tag;
+    tagBox.appendChild(t);
   });
 
-  async function checkProduct() {
-    const url = document.getElementById('urlInput').value.trim();
-    if (!url) { document.getElementById('urlInput').focus(); return; }
+  const result = document.getElementById('result');
+  result.style.display = 'block';
+  result.style.animation = 'none';
+  void result.offsetHeight;
+  result.style.animation = 'fadeUp 0.35s ease forwards';
+}
 
-    const btn = document.getElementById('checkBtn');
-    btn.disabled = true;
-    btn.innerHTML = 'Analyserer...';
-
-    document.getElementById('placeholder').style.display = 'none';
-    document.getElementById('resultCard').style.display = 'none';
-    document.getElementById('loadingBox').style.display = 'block';
-
-    try {
-      const response = await fetch('/api/analyze', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ url })
-      });
-
-      if (!response.ok) throw new Error('API fejl');
-      const result = await response.json();
-      showResult(result);
-    } catch (e) {
-      document.getElementById('loadingBox').style.display = 'none';
-      document.getElementById('placeholder').style.display = 'block';
-      document.getElementById('placeholder').innerHTML = '<div class="dv-placeholder-icon">⚠️</div><h3>Kunne ikke analysere linket</h3><p>Prøv igen eller tjek at linket er korrekt.</p>';
-    }
-
-    btn.disabled = false;
-    btn.innerHTML = 'Tjek varen →';
-  }
-
-  function showResult(r) {
-    document.getElementById('loadingBox').style.display = 'none';
-
-    const region = r.productionRegion || 'WORLD';
-    const banner = document.getElementById('resultBanner');
-    banner.className = 'dv-result-banner ' + (region === 'DK' ? 'dk' : region === 'EU' ? 'eu' : 'world');
-
-    document.getElementById('flagEmoji').textContent = r.flag || '🌍';
-    document.getElementById('originCountry').textContent = r.productionCountry || 'Ukendt';
-
-    const badge = document.getElementById('originBadge');
-    if (region === 'DK') badge.textContent = '🇩🇰 Dansk vare';
-    else if (region === 'EU') badge.textContent = '🇪🇺 EU-vare';
-    else badge.textContent = '🌍 Udenfor EU';
-
-    document.getElementById('brandName').textContent = r.brand || '—';
-    document.getElementById('brandCountry').textContent = r.brandCountry || '—';
-    document.getElementById('productCat').textContent = r.category || '—';
-
-    const score = Math.round(r.siteScore) || 70;
-    const scoreRow = document.getElementById('scoreRow');
-    scoreRow.className = 'dv-score-row ' + (score >= 70 ? 'score-high' : score >= 40 ? 'score-mid' : 'score-low');
-    document.getElementById('scoreNum').textContent = score + '/100';
-    document.getElementById('scoreText').textContent = r.siteScoreLabel || '';
-    setTimeout(() => { document.getElementById('scoreBar').style.width = score + '%'; }, 100);
-
-    document.getElementById('analysisText').textContent = r.analysis || '';
-
-    const tagBox = document.getElementById('tagBox');
-    tagBox.innerHTML = '';
-    (r.tags || []).forEach(tag => {
-      const t = document.createElement('div');
-      const isWarn = ['kina','risiko','bangladesh','vietnam','cambodja'].some(w => tag.toLowerCase().includes(w));
-      t.className = 'dv-tag' + (isWarn ? ' warn' : '');
-      t.textContent = tag;
-      tagBox.appendChild(t);
-    });
-
-    const card = document.getElementById('resultCard');
-    card.style.display = 'block';
-    card.style.animation = 'none';
-    void card.offsetHeight;
-    card.style.animation = 'fadeIn 0.4s ease forwards';
-  }
+function getBrandFlag(country) {
+  if (!country) return '🏳️';
+  const c = country.toLowerCase();
+  if (c.includes('danmark') || c.includes('danish') || c.includes('denmark')) return '🇩🇰';
+  if (c.includes('sverige') || c.includes('sweden')) return '🇸🇪';
+  if (c.includes('norge') || c.includes('norway')) return '🇳🇴';
+  if (c.includes('usa') || c.includes('united states') || c.includes('america')) return '🇺🇸';
+  if (c.includes('kina') || c.includes('china')) return '🇨🇳';
+  if (c.includes('japan')) return '🇯🇵';
+  if (c.includes('tyskland') || c.includes('germany')) return '🇩🇪';
+  if (c.includes('frankrig') || c.includes('france')) return '🇫🇷';
+  if (c.includes('italien') || c.includes('italy')) return '🇮🇹';
+  if (c.includes('spanien') || c.includes('spain')) return '🇪🇸';
+  if (c.includes('england') || c.includes('uk') || c.includes('britain')) return '🇬🇧';
+  if (c.includes('holland') || c.includes('netherlands')) return '🇳🇱';
+  if (c.includes('finland')) return '🇫🇮';
+  return '🏳️';
+}
 </script>
 </body>
 </html>
