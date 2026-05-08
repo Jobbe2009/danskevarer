@@ -8,15 +8,19 @@ module.exports = async function handler(req, res) {
 
   const prompt = `Du er en vareanalyse-assistent for danskevarer.dk. Brugeren har indtastet: "${url}"
 
+REGLER FOR productionRegion:
+- Hvis input er et SPECIFIKT PRODUKT eller PRODUKTLINK: find præcist hvor den type produkt produceres og sæt DK, EU eller WORLD. Brug ALDRIG MIXED for specifikke produkter.
+- Hvis input er et BRAND eller BUTIK uden specifikt produkt: brug MIXED hvis de producerer i både Europa og udenfor Europa.
+
 Returner KUN JSON (ingen backticks):
 {
   "brand": "virksomhedens navn",
   "brandCountry": "landet hvor virksomheden er grundlagt, på dansk",
   "productionCountry": "beskriv præcist hvor produktet produceres, fx 'Kina', 'Danmark', 'Vietnam og Kina', 'Globalt - primært Asien' osv.",
-  "productionRegion": "DK" hvis kun Danmark, "EU" hvis kun Europa, "WORLD" hvis kun udenfor Europa, "MIXED" hvis både europæisk og ikke-europæisk (fx IKEA HM Zara Nike Apple som producerer globalt),
-  "mixedNote": "kun udfyldt hvis MIXED - kort forklaring på dansk fx 'Produceres både i Europa og Asien' eller 'Globalt produceret - dele fra Asien, design fra Sverige'",
+  "productionRegion": "DK hvis kun Danmark, EU hvis kun Europa, WORLD hvis kun udenfor Europa, MIXED hvis både europæisk og ikke-europæisk - kun for brands/butikker generelt",
+  "mixedNote": "kun udfyldt hvis MIXED - kort forklaring på dansk fx 'Produceres primært i Asien, men også i Europa'",
   "category": "produktkategori på dansk",
-  "flag": "flag-emoji for virksomhedens hjemland",
+  "flag": "flag-emoji for produktionslandet - ved MIXED brug 🌍",
   "siteScore": HELTAL 1-5. Kendte store mærker Nike Apple LEGO IKEA HM Zara Adidas Samsung Elgiganten Power Arla = 5. Mellemstore = 4. Mindre kendte = 3. Ukendte = 2. Mistænkelige = 1,
   "analysis": "2-3 sætninger på dansk om virksomhedens oprindelse, produktion og bæredygtighed",
   "tags": ["op til 5 korte nøgleord på dansk"]
