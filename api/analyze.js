@@ -8,6 +8,8 @@ module.exports = async function handler(req, res) {
 
   const prompt = `Du er en vareanalyse-assistent for danskevarer.dk. Brugeren har indtastet: "${url}"
 
+Søg på nettet for at finde præcise og faktuelle oplysninger om dette produkt eller mærke, særligt hvor det produceres.
+
 REGLER FOR productionRegion:
 - Hvis input er et SPECIFIKT PRODUKT eller PRODUKTLINK: find præcist hvor den type produkt produceres og sæt DK, EU eller WORLD. Brug ALDRIG MIXED for specifikke produkter.
 - Hvis input er et BRAND eller BUTIK uden specifikt produkt: brug MIXED hvis de producerer i både Europa og udenfor Europa.
@@ -32,7 +34,7 @@ Returner KUN JSON (ingen backticks):
   "category": "produktkategori på dansk",
   "flag": "flag-emoji for produktionslandet - ved MIXED brug 🌍",
   "siteScore": HELTAL 1-5. Kendte store mærker Nike Apple LEGO IKEA HM Zara Adidas Samsung Elgiganten Power Arla = 5. Mellemstore = 4. Mindre kendte = 3. Ukendte = 2. Mistænkelige = 1,
-  "analysis": "2-3 sætninger på dansk om virksomhedens oprindelse, produktion og bæredygtighed",
+  "analysis": "2-3 sætninger på dansk om virksomhedens oprindelse, produktion og bæredygtighed - baseret på hvad du fandt ved søgning",
   "tags": ["op til 5 korte nøgleord på dansk"]
 }`;
 
@@ -46,12 +48,23 @@ Returner KUN JSON (ingen backticks):
       },
       body: JSON.stringify({
         model: 'claude-haiku-4-5-20251001',
-        max_tokens: 800,
+        max_tokens: 1000,
+        tools: [
+          {
+            type: 'web_search_20250305',
+            name: 'web_search',
+          }
+        ],
         messages: [{ role: 'user', content: prompt }],
       }),
     });
     const data = await r.json();
-    const text = data.content[0].text.replace(/```json|```/g, '').trim();
+    const text = data.content
+      .map(item => item.type === 'text' ? item.text : '')
+      .filter(Boolean)
+      .join('')
+      .replace(/```json|```/g, '')
+      .trim();
     res.status(200).json(JSON.parse(text));
   } catch (e) {
     res.status(500).json({ error: e.message });
