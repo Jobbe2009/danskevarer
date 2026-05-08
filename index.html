@@ -71,8 +71,9 @@ header { height: 52px; display: flex; align-items: center; justify-content: cent
 .flag-big { font-size: 32px; flex-shrink: 0; line-height: 1; }
 .section-info { flex: 1; min-width: 0; }
 .section-name { font-family: 'DM Serif Display', serif; font-size: 22px; line-height: 1.2; margin-bottom: 2px; }
-.section-sub { font-size: 13px; color: var(--muted); font-weight: 300; }
-.section-badge { padding: 6px 14px; border-radius: 20px; font-size: 13px; font-weight: 500; white-space: nowrap; flex-shrink: 0; }
+.section-sub { font-size: 13px; color: var(--muted); font-weight: 300; margin-top: 3px; }
+.section-badge-wrap { display: flex; flex-direction: column; gap: 5px; align-items: flex-end; flex-shrink: 0; }
+.section-badge { padding: 6px 14px; border-radius: 20px; font-size: 13px; font-weight: 500; white-space: nowrap; }
 .badge-dk { background: var(--green-bg); color: var(--green); }
 .badge-eu { background: var(--yellow-bg); color: var(--yellow); }
 .badge-world { background: var(--red-bg); color: var(--red); }
@@ -101,7 +102,7 @@ footer { text-align: center; padding: 24px; font-size: 12px; color: var(--muted)
 
 @media (max-width: 500px) {
   .section-body { flex-wrap: wrap; }
-  .section-badge { width: 100%; text-align: center; }
+  .section-badge-wrap { align-items: flex-start; }
   .score-card { flex-direction: column; align-items: flex-start; gap: 10px; }
 }
 </style>
@@ -151,7 +152,7 @@ footer { text-align: center; padding: 24px; font-size: 12px; color: var(--muted)
           <div class="section-name" id="brandName"></div>
           <div class="section-sub" id="brandSub"></div>
         </div>
-        <div class="section-badge" id="brandBadge"></div>
+        <div class="section-badge-wrap" id="brandBadgeWrap"></div>
       </div>
     </div>
 
@@ -164,7 +165,7 @@ footer { text-align: center; padding: 24px; font-size: 12px; color: var(--muted)
           <div class="section-name" id="prodCountry"></div>
           <div class="section-sub" id="prodSub"></div>
         </div>
-        <div class="section-badge" id="prodBadge"></div>
+        <div class="section-badge-wrap" id="prodBadgeWrap"></div>
       </div>
     </div>
 
@@ -230,6 +231,13 @@ async function checkProduct() {
   btn.textContent = 'Tjek';
 }
 
+function makeBadge(text, cls) {
+  const b = document.createElement('div');
+  b.className = 'section-badge ' + cls;
+  b.textContent = text;
+  return b;
+}
+
 function getBrandRegion(country) {
   if (!country) return 'WORLD';
   const c = country.toLowerCase();
@@ -268,17 +276,15 @@ function showResult(r) {
   document.getElementById('brandName').textContent = r.brand || '—';
   document.getElementById('brandSub').textContent = (r.brandCountry || '') + (r.category ? ' · ' + r.category : '');
 
+  const brandBadgeWrap = document.getElementById('brandBadgeWrap');
+  brandBadgeWrap.innerHTML = '';
   const brandRegion = getBrandRegion(r.brandCountry);
-  const brandBadge = document.getElementById('brandBadge');
   if (brandRegion === 'DK') {
-    brandBadge.textContent = '🇩🇰 Dansk mærke';
-    brandBadge.className = 'section-badge badge-dk';
+    brandBadgeWrap.appendChild(makeBadge('🇩🇰 Dansk mærke', 'badge-dk'));
   } else if (brandRegion === 'EU') {
-    brandBadge.textContent = '🇪🇺 Europæisk mærke';
-    brandBadge.className = 'section-badge badge-eu';
+    brandBadgeWrap.appendChild(makeBadge('🇪🇺 Europæisk mærke', 'badge-eu'));
   } else {
-    brandBadge.textContent = '🌍 Udenfor Europa';
-    brandBadge.className = 'section-badge badge-world';
+    brandBadgeWrap.appendChild(makeBadge('🌍 Udenfor Europa', 'badge-world'));
   }
 
   // --- PRODUKTION SEKTION ---
@@ -286,19 +292,17 @@ function showResult(r) {
   document.getElementById('prodCountry').textContent = r.productionCountry || 'Ukendt';
   document.getElementById('prodSub').textContent = r.mixedNote || '';
 
-  const prodBadge = document.getElementById('prodBadge');
+  const prodBadgeWrap = document.getElementById('prodBadgeWrap');
+  prodBadgeWrap.innerHTML = '';
   if (region === 'DK') {
-    prodBadge.textContent = '🇩🇰 Produceret i Danmark';
-    prodBadge.className = 'section-badge badge-dk';
+    prodBadgeWrap.appendChild(makeBadge('🇩🇰 Produceret i Danmark', 'badge-dk'));
   } else if (region === 'EU') {
-    prodBadge.textContent = '🇪🇺 Europæisk produktion';
-    prodBadge.className = 'section-badge badge-eu';
+    prodBadgeWrap.appendChild(makeBadge('🇪🇺 Europæisk produktion', 'badge-eu'));
   } else if (region === 'MIXED') {
-    prodBadge.textContent = '🌍 Globalt produceret';
-    prodBadge.className = 'section-badge badge-eu';
+    prodBadgeWrap.appendChild(makeBadge('🇪🇺 Produceres i Europa', 'badge-eu'));
+    prodBadgeWrap.appendChild(makeBadge('🌍 Produceres udenfor Europa', 'badge-world'));
   } else {
-    prodBadge.textContent = '🌍 Udenfor Europa';
-    prodBadge.className = 'section-badge badge-world';
+    prodBadgeWrap.appendChild(makeBadge('🌍 Udenfor Europa', 'badge-world'));
   }
 
   // --- SCORE ---
