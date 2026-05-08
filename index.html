@@ -1,21 +1,15 @@
 <!DOCTYPE html>
 <html lang="da">
 <head>
-
-<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6756757064875934"
-     crossorigin="anonymous"></script>
-
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6756757064875934" crossorigin="anonymous"></script>
 <meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-<title>danskevarer.dk — Tjek din vares oprindelse</title>
-<meta name="description" content="Tjek om dit produkt er dansk, europæisk eller produceret udenfor EU."/>
+<title>danskevarer.dk — Hvor kommer din vare fra?</title>
+<meta name="description" content="Tjek om dit produkt er dansk, europæisk eller produceret udenfor Europa."/>
 <link rel="preconnect" href="https://fonts.googleapis.com"/>
 <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet"/>
 <style>
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-
 :root {
   --bg: #f5f2ed;
   --surface: #ffffff;
@@ -29,158 +23,49 @@
   --red: #c0392b;
   --red-bg: #fdf0ee;
 }
+body { font-family: 'DM Sans', sans-serif; background: var(--bg); color: var(--text); min-height: 100vh; font-size: 15px; line-height: 1.6; }
 
-body {
-  font-family: 'DM Sans', sans-serif;
-  background: var(--bg);
-  color: var(--text);
-  min-height: 100vh;
-  font-size: 15px;
-  line-height: 1.6;
-}
-
-header {
-  height: 52px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  border-bottom: 1px solid var(--border);
-  background: var(--bg);
-}
-.logo {
-  font-family: 'DM Serif Display', serif;
-  font-size: 20px;
-  color: var(--text);
-  letter-spacing: -0.3px;
-}
+header { height: 52px; display: flex; align-items: center; justify-content: center; border-bottom: 1px solid var(--border); background: var(--bg); }
+.logo { font-family: 'DM Serif Display', serif; font-size: 20px; color: var(--text); letter-spacing: -0.3px; }
 .logo em { font-style: italic; color: var(--green); }
 
-.hero {
-  max-width: 640px;
-  margin: 0 auto;
-  padding: 64px 20px 48px;
-  text-align: center;
-}
-.hero h1 {
-  font-family: 'DM Serif Display', serif;
-  font-size: clamp(28px, 5vw, 42px);
-  line-height: 1.15;
-  margin-bottom: 12px;
-  letter-spacing: -0.5px;
-}
+.hero { max-width: 640px; margin: 0 auto; padding: 64px 20px 48px; text-align: center; }
+.hero h1 { font-family: 'DM Serif Display', serif; font-size: clamp(28px, 5vw, 42px); line-height: 1.15; margin-bottom: 12px; letter-spacing: -0.5px; }
 .hero h1 em { font-style: italic; color: var(--green); }
 .hero p { color: var(--muted); font-size: 15px; margin-bottom: 32px; font-weight: 300; }
 
-.search-wrap {
-  display: flex;
-  gap: 8px;
-  background: var(--surface);
-  border: 1.5px solid var(--border);
-  border-radius: 14px;
-  padding: 6px 6px 6px 18px;
-  transition: border-color 0.2s;
-  box-shadow: 0 2px 12px rgba(0,0,0,0.06);
-}
+.search-wrap { display: flex; gap: 8px; background: var(--surface); border: 1.5px solid var(--border); border-radius: 14px; padding: 6px 6px 6px 18px; transition: border-color 0.2s; box-shadow: 0 2px 12px rgba(0,0,0,0.06); }
 .search-wrap:focus-within { border-color: var(--green); }
-.search-wrap input {
-  flex: 1;
-  border: none;
-  outline: none;
-  font-size: 14px;
-  font-family: 'DM Sans', sans-serif;
-  background: transparent;
-  color: var(--text);
-  min-width: 0;
-}
+.search-wrap input { flex: 1; border: none; outline: none; font-size: 14px; font-family: 'DM Sans', sans-serif; background: transparent; color: var(--text); min-width: 0; }
 .search-wrap input::placeholder { color: #bbb; }
-.search-btn {
-  background: var(--green);
-  color: #fff;
-  border: none;
-  border-radius: 10px;
-  padding: 10px 22px;
-  font-size: 14px;
-  font-weight: 500;
-  font-family: 'DM Sans', sans-serif;
-  cursor: pointer;
-  white-space: nowrap;
-  transition: background 0.15s, transform 0.1s;
-}
+.search-btn { background: var(--green); color: #fff; border: none; border-radius: 10px; padding: 10px 22px; font-size: 14px; font-weight: 500; font-family: 'DM Sans', sans-serif; cursor: pointer; white-space: nowrap; transition: background 0.15s, transform 0.1s; }
 .search-btn:hover { background: #235f3b; }
 .search-btn:active { transform: scale(0.98); }
 .search-btn:disabled { background: #ccc; cursor: not-allowed; }
 
-.suggestions {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 8px;
-  justify-content: center;
-  margin-top: 16px;
-}
-.suggestion {
-  background: var(--surface);
-  border: 1px solid var(--border);
-  border-radius: 20px;
-  padding: 5px 14px;
-  font-size: 13px;
-  color: var(--muted);
-  cursor: pointer;
-  transition: all 0.15s;
-  white-space: nowrap;
-}
+.suggestions { display: flex; flex-wrap: wrap; gap: 8px; justify-content: center; margin-top: 16px; }
+.suggestion { background: var(--surface); border: 1px solid var(--border); border-radius: 20px; padding: 5px 14px; font-size: 13px; color: var(--muted); cursor: pointer; transition: all 0.15s; white-space: nowrap; }
 .suggestion:hover { border-color: var(--green); color: var(--green); background: var(--green-bg); }
 
-.legend {
-  display: flex;
-  gap: 20px;
-  justify-content: center;
-  margin-top: 28px;
-  flex-wrap: wrap;
-}
+.legend { display: flex; gap: 20px; justify-content: center; margin-top: 28px; flex-wrap: wrap; }
 .legend-item { display: flex; align-items: center; gap: 6px; font-size: 12px; color: var(--muted); font-weight: 300; }
 .legend-dot { width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0; }
 .dot-dk { background: var(--green); }
 .dot-eu { background: #c9a520; }
 .dot-world { background: var(--red); }
 
-.content {
-  max-width: 640px;
-  margin: 0 auto;
-  padding: 0 20px 80px;
-}
+.content { max-width: 640px; margin: 0 auto; padding: 0 20px 80px; }
 
 .loading { display: none; text-align: center; padding: 48px 0; }
-.spinner {
-  width: 28px; height: 28px;
-  border: 2px solid var(--border);
-  border-top-color: var(--green);
-  border-radius: 50%;
-  animation: spin 0.7s linear infinite;
-  margin: 0 auto 12px;
-}
+.spinner { width: 28px; height: 28px; border: 2px solid var(--border); border-top-color: var(--green); border-radius: 50%; animation: spin 0.7s linear infinite; margin: 0 auto 12px; }
 @keyframes spin { to { transform: rotate(360deg); } }
 .loading p { font-size: 13px; color: var(--muted); font-weight: 300; }
 
 .result { display: none; animation: fadeUp 0.35s ease forwards; }
-@keyframes fadeUp {
-  from { opacity: 0; transform: translateY(12px); }
-  to { opacity: 1; transform: translateY(0); }
-}
+@keyframes fadeUp { from { opacity: 0; transform: translateY(12px); } to { opacity: 1; transform: translateY(0); } }
 
-.origin-card {
-  border-radius: 16px;
-  overflow: hidden;
-  border: 1px solid var(--border);
-  background: var(--surface);
-  margin-bottom: 12px;
-}
-.origin-top {
-  padding: 20px 24px;
-  display: flex;
-  flex-direction: column;
-  gap: 16px;
-  border-bottom: 1px solid var(--border);
-}
+.origin-card { border-radius: 16px; overflow: hidden; border: 1px solid var(--border); background: var(--surface); margin-bottom: 12px; }
+.origin-top { padding: 20px 24px; display: flex; flex-direction: column; gap: 16px; border-bottom: 1px solid var(--border); }
 .origin-row { display: flex; align-items: center; gap: 12px; }
 .origin-flag { font-size: 28px; line-height: 1; flex-shrink: 0; }
 .origin-info { flex: 1; }
@@ -192,13 +77,7 @@ header {
 .badge-eu { background: var(--yellow-bg); color: var(--yellow); }
 .badge-world { background: var(--red-bg); color: var(--red); }
 
-.production-row {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  padding: 12px 16px;
-  border-radius: 10px;
-}
+.production-row { display: flex; align-items: center; gap: 12px; padding: 12px 16px; border-radius: 10px; }
 .production-row.dk { background: var(--green-bg); }
 .production-row.eu { background: var(--yellow-bg); }
 .production-row.world { background: var(--red-bg); }
@@ -210,57 +89,27 @@ header {
 .prod-label.world { color: var(--red); }
 .prod-value { font-size: 14px; font-weight: 500; }
 
-.origin-bottom {
-  padding: 16px 24px;
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 12px;
-}
+.origin-bottom { padding: 16px 24px; display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
 .info-label { font-size: 10px; text-transform: uppercase; letter-spacing: 1px; color: var(--muted); margin-bottom: 3px; font-weight: 500; }
 .info-value { font-size: 15px; font-weight: 500; }
 
-/* STAR SCORE */
-.score-card {
-  background: var(--surface);
-  border: 1px solid var(--border);
-  border-radius: 16px;
-  padding: 20px 24px;
-  margin-bottom: 12px;
-  display: flex;
-  align-items: center;
-  gap: 16px;
-}
+.score-card { background: var(--surface); border: 1px solid var(--border); border-radius: 16px; padding: 20px 24px; margin-bottom: 12px; display: flex; align-items: center; gap: 16px; }
 .stars { display: flex; gap: 4px; font-size: 24px; line-height: 1; }
-.star { transition: transform 0.2s; }
-.star.filled { filter: none; }
-.star.empty { filter: grayscale(1); opacity: 0.25; }
+.star.filled { opacity: 1; }
+.star.empty { opacity: 0.2; }
 .score-right { flex: 1; }
 .score-label { font-size: 10px; text-transform: uppercase; letter-spacing: 1px; color: var(--muted); margin-bottom: 4px; font-weight: 500; }
 .score-text { font-size: 14px; font-weight: 500; }
 .score-sub { font-size: 12px; color: var(--muted); font-weight: 300; margin-top: 1px; }
 
-.analysis-card {
-  background: var(--surface);
-  border: 1px solid var(--border);
-  border-radius: 16px;
-  padding: 20px 24px;
-  margin-bottom: 12px;
-}
+.analysis-card { background: var(--surface); border: 1px solid var(--border); border-radius: 16px; padding: 20px 24px; margin-bottom: 12px; }
 .analysis-text { font-size: 14px; line-height: 1.75; color: #444; font-weight: 300; }
 .tags { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 12px; }
 .tag { background: var(--bg); border: 1px solid var(--border); border-radius: 6px; padding: 3px 10px; font-size: 12px; color: var(--muted); }
 .tag-warn { background: var(--red-bg); border-color: #f0c0bb; color: var(--red); }
 
 .placeholder { text-align: center; padding: 64px 0; }
-.placeholder-icon {
-  width: 48px; height: 48px;
-  border-radius: 50%;
-  background: var(--surface);
-  border: 1px solid var(--border);
-  display: flex; align-items: center; justify-content: center;
-  margin: 0 auto 16px;
-  font-size: 20px;
-}
+.placeholder-icon { width: 48px; height: 48px; border-radius: 50%; background: var(--surface); border: 1px solid var(--border); display: flex; align-items: center; justify-content: center; margin: 0 auto 16px; font-size: 20px; }
 .placeholder h3 { font-family: 'DM Serif Display', serif; font-size: 18px; margin-bottom: 6px; font-weight: 400; }
 .placeholder p { font-size: 13px; color: var(--muted); font-weight: 300; }
 
@@ -279,33 +128,34 @@ footer { text-align: center; padding: 24px; font-size: 12px; color: var(--muted)
 </header>
 
 <section class="hero">
-  <h1>Kender du varen<br/>bag din <em>vare?</em></h1>
-  <p>Indsæt et produktlink og se hvor varen kommer fra</p>
+  <h1>Hvor kommer<br/>din <em>vare</em> fra?</h1>
+  <p>Søg på et produkt, et mærke eller indsæt et link</p>
 
   <div class="search-wrap">
-    <input type="text" id="urlInput" placeholder="Indsæt produktlink her..." autocomplete="off"/>
-    <button class="search-btn" id="checkBtn" onclick="checkProduct()">Tjek varen</button>
+    <input type="text" id="urlInput" placeholder="fx iPhone 17 Pro, Nike, power.dk eller et produktlink..." autocomplete="off"/>
+    <button class="search-btn" id="checkBtn" onclick="checkProduct()">Tjek</button>
   </div>
 
   <div class="suggestions">
-    <div class="suggestion" onclick="fillExample('https://www.apple.com/dk/shop/buy-iphone/iphone-16')">📱 Apple iPhone 16</div>
-    <div class="suggestion" onclick="fillExample('https://www.zara.com/dk/da/shorts-l07244878.html')">👕 Zara shorts</div>
-    <div class="suggestion" onclick="fillExample('https://www.hummel.dk/products/hummel-core-t-shirt')">🇩🇰 Hummel T-shirt</div>
-    <div class="suggestion" onclick="fillExample('https://www.lego.com/dk-dk/themes/technic')">🧱 LEGO Technic</div>
-    <div class="suggestion" onclick="fillExample('https://www.nike.com/dk/t/air-max-270-sko')">👟 Nike Air Max</div>
+    <div class="suggestion" onclick="fillExample('iPhone 17 Pro')">📱 iPhone 17 Pro</div>
+    <div class="suggestion" onclick="fillExample('Zara shorts')">👕 Zara shorts</div>
+    <div class="suggestion" onclick="fillExample('Hummel sportstøj')">🇩🇰 Hummel</div>
+    <div class="suggestion" onclick="fillExample('LEGO Technic')">🧱 LEGO Technic</div>
+    <div class="suggestion" onclick="fillExample('Nike Air Max')">👟 Nike Air Max</div>
+    <div class="suggestion" onclick="fillExample('power.dk')">⚡ Power.dk</div>
   </div>
 
   <div class="legend">
     <div class="legend-item"><div class="legend-dot dot-dk"></div> Dansk produceret</div>
     <div class="legend-item"><div class="legend-dot dot-eu"></div> Europæisk produceret</div>
-    <div class="legend-item"><div class="legend-dot dot-world"></div> Udenfor EU</div>
+    <div class="legend-item"><div class="legend-dot dot-world"></div> Udenfor Europa</div>
   </div>
 </section>
 
 <div class="content">
   <div class="loading" id="loadingBox">
     <div class="spinner"></div>
-    <p>Analyserer produktet...</p>
+    <p>Analyserer...</p>
   </div>
 
   <div class="result" id="result">
@@ -357,16 +207,16 @@ footer { text-align: center; padding: 24px; font-size: 12px; color: var(--muted)
 
   <div class="placeholder" id="placeholder">
     <div class="placeholder-icon">🔍</div>
-    <h3>Indsæt et produktlink</h3>
-    <p>Vi analyserer oprindlsesland, mærke og butikkens troværdighed</p>
+    <h3>Søg på et produkt eller mærke</h3>
+    <p>Skriv fx "iPhone 17 Pro", "Nike" eller indsæt et produktlink</p>
   </div>
 </div>
 
 <footer>© 2026 danskevarer.dk &nbsp;·&nbsp; Handel bevidst. Støt lokalt.</footer>
 
 <script>
-function fillExample(url) {
-  document.getElementById('urlInput').value = url;
+function fillExample(val) {
+  document.getElementById('urlInput').value = val;
   document.getElementById('urlInput').focus();
 }
 document.getElementById('urlInput').addEventListener('keydown', e => {
@@ -388,15 +238,15 @@ async function checkProduct() {
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ url })
     });
-    if (!r.ok) throw new Error('API fejl');
+    if (!r.ok) throw new Error('fejl');
     showResult(await r.json());
   } catch(e) {
     document.getElementById('loadingBox').style.display = 'none';
     document.getElementById('placeholder').style.display = 'block';
-    document.getElementById('placeholder').innerHTML = '<div class="placeholder-icon">⚠️</div><h3>Kunne ikke analysere</h3><p>Prøv igen eller tjek at linket er gyldigt.</p>';
+    document.getElementById('placeholder').innerHTML = '<div class="placeholder-icon">⚠️</div><h3>Kunne ikke analysere</h3><p>Prøv igen med et andet søgeord eller link.</p>';
   }
   btn.disabled = false;
-  btn.textContent = 'Tjek varen';
+  btn.textContent = 'Tjek';
 }
 
 function showResult(r) {
@@ -412,7 +262,7 @@ function showResult(r) {
   const badge = document.getElementById('statusBadge');
   if (region === 'DK') { badge.textContent = '🇩🇰 Dansk vare'; badge.className = 'status-badge badge-dk'; }
   else if (region === 'EU') { badge.textContent = '🇪🇺 Europæisk vare'; badge.className = 'status-badge badge-eu'; }
-  else { badge.textContent = '🌍 Udenfor EU'; badge.className = 'status-badge badge-world'; }
+  else { badge.textContent = '🌍 Udenfor Europa'; badge.className = 'status-badge badge-world'; }
 
   const prodRow = document.getElementById('productionRow');
   prodRow.className = 'production-row ' + (region === 'DK' ? 'dk' : region === 'EU' ? 'eu' : 'world');
@@ -421,8 +271,7 @@ function showResult(r) {
   prodLabel.className = 'prod-label ' + (region === 'DK' ? 'dk' : region === 'EU' ? 'eu' : 'world');
   document.getElementById('prodCountry').textContent = r.productionCountry || 'Ukendt';
 
-  // Stars 1-5
-  const stars = Math.round(r.siteScore) || 3;
+  const stars = Math.min(5, Math.max(1, Math.round(r.siteScore))) || 3;
   const starsBox = document.getElementById('starsBox');
   starsBox.innerHTML = '';
   for (let i = 1; i <= 5; i++) {
@@ -431,9 +280,8 @@ function showResult(r) {
     s.textContent = '★';
     starsBox.appendChild(s);
   }
-
-  const labels = { 1: 'Ukendt butik', 2: 'Vær forsigtig', 3: 'Neutral', 4: 'Troværdig', 5: 'Meget troværdig' };
-  const subs = { 1: 'Vi kender ikke denne butik', 2: 'Tjek anmeldelser før køb', 3: 'Ingen store advarsler', 4: 'Etableret og sikker butik', 5: 'Velkendt og betroet butik' };
+  const labels = { 1: 'Ukendt', 2: 'Vær forsigtig', 3: 'Neutral', 4: 'Troværdig', 5: 'Meget troværdig' };
+  const subs = { 1: 'Vi kender ikke denne butik', 2: 'Tjek anmeldelser før køb', 3: 'Ingen store advarsler', 4: 'Etableret og sikker', 5: 'Velkendt og betroet' };
   document.getElementById('scoreText').textContent = labels[stars] || '';
   document.getElementById('scoreSub').textContent = subs[stars] || '';
 
@@ -472,6 +320,7 @@ function getBrandFlag(country) {
   if (c.includes('england') || c.includes('uk') || c.includes('britain')) return '🇬🇧';
   if (c.includes('holland') || c.includes('netherlands')) return '🇳🇱';
   if (c.includes('finland')) return '🇫🇮';
+  if (c.includes('schweiz') || c.includes('switzerland')) return '🇨🇭';
   return '🏳️';
 }
 </script>
