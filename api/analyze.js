@@ -8,21 +8,17 @@ module.exports = async function handler(req, res) {
 
   const prompt = `Du er en vareanalyse-assistent for danskevarer.dk. Brugeren har indtastet: "${url}"
 
-Inputtet kan være:
-1. Et produktlink (fx https://www.nike.com/dk/t/air-max-270)
-2. Et domæne eller hjemmeside (fx power.dk eller www.elgiganten.dk)
-3. Et produktnavn eller søgeord (fx "iPhone 17 Pro", "Zara bukser", "LEGO Technic", "Nike Air Max")
-
-Analyser inputtet og returner KUN JSON (ingen backticks, ingen ekstra tekst):
+Returner KUN JSON (ingen backticks):
 {
-  "brand": "virksomhedens eller mærkets navn",
-  "brandCountry": "landet hvor virksomheden/mærket er grundlagt, på dansk",
-  "productionCountry": "landet hvor produktet/varerne typisk produceres, på dansk. Hvis ukendt skriv Ukendt",
-  "productionRegion": "DK" hvis Danmark, "EU" hvis europæisk land (Sverige Norge Finland Island Tyskland Frankrig Italien Spanien Holland Belgien Polen Schweiz mv), "WORLD" hvis udenfor Europa (Kina USA Bangladesh Vietnam Indien Tyrkiet osv),
-  "category": "produktkategori eller virksomhedstype på dansk",
-  "flag": "flag-emoji for produktionslandet eller virksomhedens hjemland hvis produktion ukendt",
-  "siteScore": HELTAL 1-5. Store kendte globale mærker og butikker som Nike Apple LEGO Zara IKEA Arla HM Adidas Samsung Sony Elgiganten Power Zalando og lignende = altid 5. Mellemstore kendte mærker = 4. Mindre kendte = 3. Ukendte = 2. Mistænkelige = 1,
-  "analysis": "2-3 sætninger på dansk om virksomhedens oprindelse, hvor produkterne typisk produceres og eventuelle bæredygtighedsforhold",
+  "brand": "virksomhedens navn",
+  "brandCountry": "landet hvor virksomheden er grundlagt, på dansk",
+  "productionCountry": "beskriv præcist hvor produktet produceres, fx 'Kina', 'Danmark', 'Vietnam og Kina', 'Globalt - primært Asien' osv.",
+  "productionRegion": "DK" hvis kun Danmark, "EU" hvis kun Europa, "WORLD" hvis kun udenfor Europa, "MIXED" hvis både europæisk og ikke-europæisk (fx IKEA HM Zara Nike Apple som producerer globalt),
+  "mixedNote": "kun udfyldt hvis MIXED - kort forklaring på dansk fx 'Produceres både i Europa og Asien' eller 'Globalt produceret - dele fra Asien, design fra Sverige'",
+  "category": "produktkategori på dansk",
+  "flag": "flag-emoji for virksomhedens hjemland",
+  "siteScore": HELTAL 1-5. Kendte store mærker Nike Apple LEGO IKEA HM Zara Adidas Samsung Elgiganten Power Arla = 5. Mellemstore = 4. Mindre kendte = 3. Ukendte = 2. Mistænkelige = 1,
+  "analysis": "2-3 sætninger på dansk om virksomhedens oprindelse, produktion og bæredygtighed",
   "tags": ["op til 5 korte nøgleord på dansk"]
 }`;
 
