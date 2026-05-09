@@ -3,7 +3,7 @@
 <head>
 <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6756757064875934" crossorigin="anonymous"></script>
 <script defer src="/_vercel/insights/script.js"></script>
-  <meta charset="UTF-8"/>
+<meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
 <title>danskevarer.dk — Hvor kommer din vare fra?</title>
 <meta name="description" content="Tjek om dit produkt er dansk, europæisk eller produceret udenfor Europa."/>
@@ -65,7 +65,6 @@ header { height: 52px; display: flex; align-items: center; justify-content: cent
 .result { display: none; animation: fadeUp 0.35s ease forwards; }
 @keyframes fadeUp { from { opacity: 0; transform: translateY(12px); } to { opacity: 1; transform: translateY(0); } }
 
-/* SECTION CARDS */
 .section-card { background: var(--surface); border: 1px solid var(--border); border-radius: 16px; overflow: hidden; margin-bottom: 10px; }
 .section-header { padding: 10px 20px; border-bottom: 1px solid var(--border); font-size: 10px; text-transform: uppercase; letter-spacing: 1px; color: var(--muted); font-weight: 500; }
 .section-body { padding: 18px 20px; display: flex; align-items: center; gap: 14px; }
@@ -78,6 +77,7 @@ header { height: 52px; display: flex; align-items: center; justify-content: cent
 .badge-dk { background: var(--green-bg); color: var(--green); }
 .badge-eu { background: var(--yellow-bg); color: var(--yellow); }
 .badge-world { background: var(--red-bg); color: var(--red); }
+.badge-neutral { background: #f0ede6; color: var(--muted); }
 
 .score-card { background: var(--surface); border: 1px solid var(--border); border-radius: 16px; padding: 20px 24px; margin-bottom: 10px; display: flex; align-items: center; gap: 16px; }
 .stars { display: flex; gap: 4px; font-size: 24px; line-height: 1; }
@@ -143,10 +143,22 @@ footer { text-align: center; padding: 24px; font-size: 12px; color: var(--muted)
   </div>
 
   <div class="result" id="result">
+    <!-- BUTIK (kun hvis markedsplads) -->
+    <div class="section-card" id="storeCard" style="display:none;">
+      <div class="section-header">Butik</div>
+      <div class="section-body">
+        <div class="flag-big" id="storeFlag"></div>
+        <div class="section-info">
+          <div class="section-name" id="storeName"></div>
+          <div class="section-sub" id="storeSub"></div>
+        </div>
+        <div class="section-badge-wrap" id="storeBadgeWrap"></div>
+      </div>
+    </div>
 
-    <!-- SEKTION 1: MÆRKE -->
+    <!-- MÆRKE -->
     <div class="section-card">
-      <div class="section-header">Mærke</div>
+      <div class="section-header" id="brandHeader">Mærke</div>
       <div class="section-body">
         <div class="flag-big" id="brandFlag"></div>
         <div class="section-info">
@@ -157,7 +169,7 @@ footer { text-align: center; padding: 24px; font-size: 12px; color: var(--muted)
       </div>
     </div>
 
-    <!-- SEKTION 2: PRODUKTION -->
+    <!-- PRODUKTION -->
     <div class="section-card">
       <div class="section-header">Produktion</div>
       <div class="section-body">
@@ -185,7 +197,6 @@ footer { text-align: center; padding: 24px; font-size: 12px; color: var(--muted)
       <div class="analysis-text" id="analysisText"></div>
       <div class="tags" id="tagBox"></div>
     </div>
-
   </div>
 
   <div class="placeholder" id="placeholder">
@@ -248,19 +259,19 @@ function makeBadge(text, cls) {
   return b;
 }
 
-function getBrandRegion(country) {
+function getRegion(country) {
   if (!country) return 'WORLD';
   const c = country.toLowerCase();
-  if (c.includes('danmark') || c.includes('denmark') || c.includes('danish')) return 'DK';
-  const eu = ['sverige','sweden','norge','norway','tyskland','germany','frankrig','france','italien','italy','spanien','spain','holland','netherlands','finland','belgien','belgium','østrig','austria','portugal','schweiz','switzerland','polen','poland','tjekkiet','czech','irland','ireland','grækenland','greece'];
+  if (c.includes('danmark') || c.includes('denmark')) return 'DK';
+  const eu = ['sverige','sweden','norge','norway','tyskland','germany','frankrig','france','italien','italy','spanien','spain','holland','netherlands','finland','belgien','belgium','østrig','austria','portugal','schweiz','switzerland','polen','poland','tjekkiet','czech','irland','ireland','grækenland','greece','norge','norway'];
   if (eu.some(e => c.includes(e))) return 'EU';
   return 'WORLD';
 }
 
-function getBrandFlag(country) {
+function getFlag(country) {
   if (!country) return '🏳️';
   const c = country.toLowerCase();
-  if (c.includes('danmark') || c.includes('danish') || c.includes('denmark')) return '🇩🇰';
+  if (c.includes('danmark') || c.includes('denmark')) return '🇩🇰';
   if (c.includes('sverige') || c.includes('sweden')) return '🇸🇪';
   if (c.includes('norge') || c.includes('norway')) return '🇳🇴';
   if (c.includes('usa') || c.includes('united states') || c.includes('america')) return '🇺🇸';
@@ -274,48 +285,58 @@ function getBrandFlag(country) {
   if (c.includes('holland') || c.includes('netherlands')) return '🇳🇱';
   if (c.includes('finland')) return '🇫🇮';
   if (c.includes('schweiz') || c.includes('switzerland')) return '🇨🇭';
+  if (c.includes('vietnam')) return '🇻🇳';
+  if (c.includes('bangladesh')) return '🇧🇩';
+  if (c.includes('indien') || c.includes('india')) return '🇮🇳';
+  if (c.includes('tyrkiet') || c.includes('turkey')) return '🇹🇷';
+  if (c.includes('cambodja') || c.includes('cambodia')) return '🇰🇭';
   return '🏳️';
+}
+
+function setBadgeRegion(wrap, region) {
+  wrap.innerHTML = '';
+  if (region === 'DK') wrap.appendChild(makeBadge('🇩🇰 Dansk', 'badge-dk'));
+  else if (region === 'EU') wrap.appendChild(makeBadge('🇪🇺 Europæisk', 'badge-eu'));
+  else wrap.appendChild(makeBadge('🌍 Udenfor Europa', 'badge-world'));
 }
 
 function showResult(r) {
   document.getElementById('loadingBox').style.display = 'none';
   const region = r.productionRegion || 'WORLD';
+  const isMarketplace = r.isMarketplace === true;
 
-  // --- MÆRKE SEKTION ---
-  document.getElementById('brandFlag').textContent = getBrandFlag(r.brandCountry);
-  document.getElementById('brandName').textContent = r.brand || '—';
-  document.getElementById('brandSub').textContent = (r.brandCountry || '') + (r.category ? ' · ' + r.category : '');
-
-  const brandBadgeWrap = document.getElementById('brandBadgeWrap');
-  brandBadgeWrap.innerHTML = '';
-  const brandRegion = getBrandRegion(r.brandCountry);
-  if (brandRegion === 'DK') {
-    brandBadgeWrap.appendChild(makeBadge('🇩🇰 Dansk mærke', 'badge-dk'));
-  } else if (brandRegion === 'EU') {
-    brandBadgeWrap.appendChild(makeBadge('🇪🇺 Europæisk mærke', 'badge-eu'));
+  // BUTIK (kun markedsplads)
+  const storeCard = document.getElementById('storeCard');
+  if (isMarketplace && r.store) {
+    storeCard.style.display = 'block';
+    document.getElementById('storeFlag').textContent = getFlag(r.storeCountry);
+    document.getElementById('storeName').textContent = r.store;
+    document.getElementById('storeSub').textContent = r.storeCountry || '';
+    setBadgeRegion(document.getElementById('storeBadgeWrap'), getRegion(r.storeCountry));
   } else {
-    brandBadgeWrap.appendChild(makeBadge('🌍 Udenfor Europa', 'badge-world'));
+    storeCard.style.display = 'none';
   }
 
-  // --- PRODUKTION SEKTION ---
+  // MÆRKE
+  document.getElementById('brandFlag').textContent = getFlag(r.brandCountry);
+  document.getElementById('brandName').textContent = r.brand || '—';
+  document.getElementById('brandSub').textContent = (r.brandCountry || '') + (r.category ? ' · ' + r.category : '');
+  setBadgeRegion(document.getElementById('brandBadgeWrap'), getRegion(r.brandCountry));
+
+  // PRODUKTION
   document.getElementById('prodFlag').textContent = r.flag || '🌍';
   document.getElementById('prodCountry').textContent = r.productionCountry || 'Ukendt';
   document.getElementById('prodSub').textContent = r.mixedNote || '';
+  const prodWrap = document.getElementById('prodBadgeWrap');
+  prodWrap.innerHTML = '';
+  if (region === 'DK') prodWrap.appendChild(makeBadge('🇩🇰 Produceret i Danmark', 'badge-dk'));
+  else if (region === 'EU') prodWrap.appendChild(makeBadge('🇪🇺 Europæisk produktion', 'badge-eu'));
+  else if (region === 'MIXED') {
+    prodWrap.appendChild(makeBadge('🇪🇺 Produceres i Europa', 'badge-eu'));
+    prodWrap.appendChild(makeBadge('🌍 Produceres udenfor Europa', 'badge-world'));
+  } else prodWrap.appendChild(makeBadge('🌍 Udenfor Europa', 'badge-world'));
 
-  const prodBadgeWrap = document.getElementById('prodBadgeWrap');
-  prodBadgeWrap.innerHTML = '';
-  if (region === 'DK') {
-    prodBadgeWrap.appendChild(makeBadge('🇩🇰 Produceret i Danmark', 'badge-dk'));
-  } else if (region === 'EU') {
-    prodBadgeWrap.appendChild(makeBadge('🇪🇺 Europæisk produktion', 'badge-eu'));
-  } else if (region === 'MIXED') {
-    prodBadgeWrap.appendChild(makeBadge('🇪🇺 Produceres i Europa', 'badge-eu'));
-    prodBadgeWrap.appendChild(makeBadge('🌍 Produceres udenfor Europa', 'badge-world'));
-  } else {
-    prodBadgeWrap.appendChild(makeBadge('🌍 Udenfor Europa', 'badge-world'));
-  }
-
-  // --- SCORE ---
+  // SCORE
   const stars = Math.min(5, Math.max(1, Math.round(r.siteScore))) || 3;
   const starsBox = document.getElementById('starsBox');
   starsBox.innerHTML = '';
@@ -330,9 +351,8 @@ function showResult(r) {
   document.getElementById('scoreText').textContent = labels[stars] || '';
   document.getElementById('scoreSub').textContent = subs[stars] || '';
 
-  // --- ANALYSE ---
+  // ANALYSE
   document.getElementById('analysisText').textContent = r.analysis || '';
-
   const tagBox = document.getElementById('tagBox');
   tagBox.innerHTML = '';
   (r.tags || []).forEach(tag => {
