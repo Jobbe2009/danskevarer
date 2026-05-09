@@ -8,23 +8,33 @@ module.exports = async function handler(req, res) {
 
   const prompt = `Du er en vareanalyse-assistent for danskevarer.dk. Brugeren har indtastet: "${url}"
 
-VIGTIGT: Denne hjemmeside handler KUN om fysiske produkter og butikker der sælger varer. 
-Hvis inputtet er en person, en læge, en advokat, en service, en blog, en nyhedsside, en organisation eller noget andet der ikke sælger fysiske produkter - returner dette JSON og intet andet:
+VIGTIGT: Denne hjemmeside handler KUN om fysiske produkter og butikker der sælger varer.
+Hvis inputtet er en person, læge, advokat, service, blog, nyhedsside, organisation eller noget der ikke sælger fysiske produkter - returner KUN:
 {"error": "not_a_product"}
 
-Accepter KUN: produktnavne (fx iPhone, Nike sko, LEGO), mærkenavne der sælger fysiske varer (fx Nike, IKEA, Arla), eller links til webshops og produktsider.
+Accepter KUN: produktnavne, mærker der sælger fysiske varer, eller links til webshops og produktsider.
 
-Hvis inputtet er gyldigt, returner KUN JSON (ingen backticks):
+REGLER FOR productionRegion - vær simpel og direkte:
+- "DK" = produceres primært i Danmark
+- "EU" = produceres primært i Europa (brug dette hvis det meste af produktionen er europæisk, selvom der kan være undtagelser)
+- "WORLD" = produceres primært udenfor Europa
+- "MIXED" = brug KUN dette hvis produktionen er nogenlunde ligeligt fordelt mellem Europa og resten af verden (fx H&M, Zara, Nike). ALDRIG for brands der primært producerer ét sted.
+
+REGLER FOR productionCountry - vær kort og præcis:
+- Skriv det primære produktionsland eller region. Maks 3-4 ord.
+- Ingen lange forklaringer eller undtagelser - det hører hjemme i analysis feltet.
+
+Returner KUN JSON (ingen backticks):
 {
-  "brand": "det primære og mest kendte navn på mærket - kort",
+  "brand": "mærkets primære navn",
   "brandCountry": "ét land hvor mærket er grundlagt, på dansk",
-  "productionCountry": "maks 3-4 ord om produktionssted",
-  "productionRegion": "DK hvis kun Danmark, EU hvis kun Europa, WORLD hvis udenfor Europa, MIXED hvis både europæisk og ikke-europæisk - kun for brands/butikker generelt",
-  "mixedNote": "kun udfyldt hvis MIXED - kort forklaring på dansk",
+  "productionCountry": "primært produktionsland, maks 3-4 ord",
+  "productionRegion": "DK, EU, WORLD eller MIXED (MIXED bruges meget sjældent)",
+  "mixedNote": "kun hvis MIXED - én kort sætning på dansk",
   "category": "produktkategori på dansk",
-  "flag": "flag-emoji for produktionslandet - ved MIXED brug 🌍",
-  "siteScore": HELTAL 1-5. Store kendte mærker Nike Apple LEGO IKEA HM Zara Adidas Samsung Elgiganten Power Arla = 5. Mellemstore = 4. Mindre kendte = 3. Ukendte = 2. Mistænkelige = 1,
-  "analysis": "2-3 sætninger på dansk om virksomhedens oprindelse, produktion og bæredygtighed",
+  "flag": "flag-emoji for primært produktionsland, ved MIXED brug 🌍",
+  "siteScore": HELTAL 1-5. Store kendte mærker Nike Apple LEGO IKEA HM Zara Adidas Samsung Elgiganten Power Arla = 5. Mellemstore kendte = 4. Mindre kendte = 3. Ukendte = 2. Mistænkelige = 1,
+  "analysis": "2-3 sætninger på dansk om mærkets oprindelse og produktion",
   "tags": ["op til 5 korte nøgleord på dansk"]
 }`;
 
@@ -45,11 +55,9 @@ Hvis inputtet er gyldigt, returner KUN JSON (ingen backticks):
     const data = await r.json();
     const text = data.content[0].text.replace(/```json|```/g, '').trim();
     const parsed = JSON.parse(text);
-
     if (parsed.error === 'not_a_product') {
       return res.status(200).json({ error: 'not_a_product' });
     }
-
     res.status(200).json(parsed);
   } catch (e) {
     res.status(500).json({ error: e.message });
