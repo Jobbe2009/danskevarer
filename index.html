@@ -222,7 +222,16 @@ async function checkProduct() {
       body: JSON.stringify({ url })
     });
     if (!r.ok) throw new Error('fejl');
-    showResult(await r.json());
+    const data = await r.json();
+    if (data.error === 'not_a_product') {
+      document.getElementById('loadingBox').style.display = 'none';
+      document.getElementById('placeholder').style.display = 'block';
+      document.getElementById('placeholder').innerHTML = '<div class="placeholder-icon">🛍️</div><h3>Ikke et produkt</h3><p>Prøv at søge på et produkt eller en butik — fx "Nike sko", "IKEA sofa" eller "elgiganten.dk".</p>';
+      btn.disabled = false;
+      btn.textContent = 'Tjek';
+      return;
+    }
+    showResult(data);
   } catch(e) {
     document.getElementById('loadingBox').style.display = 'none';
     document.getElementById('placeholder').style.display = 'block';
